@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>字体变色</title>
+    <script src="../lib/jquery-3.2.1.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            min-width: 100%;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .box {
+            width: 200px;
+            height: 40px;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .box input {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-indent: 20px;
+            color: #333333;
+            border-radius: 10px;
+            outline: none;
+            border: 1px solid #cccccc;
+        }
+
+        .box input:focus {
+            border-color: sandybrown;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="canvas"></canvas>
+<div class="box">
+    <input type="text" value="6666">
+</div>
+
+<script>
+    $(function () {
+        let canvas = document.querySelector('#canvas');
+        let ctx = canvas.getContext('2d');
+        let img = null;
+        let cwidth = window.innerWidth;
+        let cheight = window.innerHeight;
+        canvas.width = cwidth;
+        canvas.height = cheight;
+        let RAF = (function () {
+            return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+        })();
+        let s = {
+            balls: [],
+            timeid: null
+        };
+
+        let canvasHandle = {
+            init() {
+                this.initImgData();
+            },
+            initImgData() {
+                s.balls = [];
+                this.imgx = (cwidth - img.width) / 2;
+                this.imgy = (cheight - img.height) / 2;
+                // 清除canvas
+                ctx.drawImage(img, this.imgx, this.imgy, img.width, img.height);
+                let imgData = ctx.getImageData(this.imgx, this.imgy, img.width, img.height);
+                ctx.clearRect(0, 0, cwidth, cheight);
+                let data = imgData.data;
+                let imgW = imgData.width;
+                let imgH = imgData.height;
+                let rows = 100, //行数
+                    cols = 100; //列数
+                // 一块的高度和宽度
+                let wid = imgW / cols,
+                    hei = imgH / rows;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        let x = (c * wid) + (wid / 2),
+                            y = (r * hei) + (hei / 2);
+                        let pos = (Math.floor(y) * (imgData.width * 4)) + (Math.floor(x) * 4);
+                        let fontColor = data[pos];
+                        if (fontColor > 125) {
+                            x = x + (Math.random() - 0.8) * 10 + 30;
+                            y = y + (Math.random() - 0.8) * 10 + 30;
+                            let red = Math.floor(Math.random() * 266),
+                                green = Math.floor(Math.random() * 266),
+                                blue = Math.floor(Math.random() * 266);
+                            var ballsingle = new ball({
+                                x,
+                                y,
+                                red,
+                                green,
+                                blue,
+                                imgx: this.imgx,
+                                imgy: this.imgy
+                            });
+                            s.balls.push(ballsingle);
+                        }
+                    }
+                }
+                if (s.timeid) {
+                    clearInterval(s.timeid);
+                };
+                this.animate();
+            },
+            animate() {
+                s.timeid = setInterval(function () {
+                    ctx.clearRect(0, 0, cwidth, cheight);
+                    let ballLen = s.balls.length;
+                    for (let i = 0; i < ballLen; i++) {
+                        s.balls[i].gogogo();
+                    }
+                }, 1000 / 60);
+            }
+        };
+        var ball = function (obj) {
+            this.posO =
+                {
+                    x: obj.x,
+                    y: obj.y
+                };
+            this.color = {
+                red: obj.red,
+                green: obj.green,
+                blue: obj.blue
+            };
+            this.posE = {
+                x: obj.x + obj.imgx,
+                y: obj.y + obj.imgy
+            };
+            this.append();
+        };
+        ball.prototype.append = function () {
+            this.alpha = Math.random() * 0.5 + 0.4;
+            this.aSpeed = 0.02 + Math.random() / 50;
+            this.r = 0;
+            this.rSpeed = Math.random() * 0.6;
+        };
+        ball.prototype.update = function () {
+            if (this.alpha < 0) {
+                this.append();
+            }
+            this.r += this.rSpeed;
+            this.alpha -= this.aSpeed;
+        };
+        ball.prototype.draw = function () {
+            ctx.beginPath();
+            ctx.arc(this.posE.x, this.posE.y, this.r, 0, 2 * Math.PI, false);
+            ctx.fillStyle = `rgba(${this.color.red},${this.color.green},${this.color.blue},${this.alpha})`;
+            ctx.fill();
+        };
+        ball.prototype.gogogo = function () {
+            this.update();
+            this.draw();
+        };
+
+
+        $(".box input").keydown(function (e) {
+            if (e.keyCode == 13) {
+                let text = $(this).val();
+                let len = text.length;
+                let fontsize = 260 - ((len - 4) * 20);
+                if (s.timeid) {
+                    clearInterval(s.timeid);
+                }
+                ctx.clearRect(0, 0, cwidth, cheight);
+                img = document.createElement('canvas');
+                img.width = 1000;
+                img.height = 300;
+                let imgctx = img.getContext("2d");
+                imgctx.textAlign = "center";
+                imgctx.textBaseline = "middle";
+                imgctx.font = `${fontsize}px 微软雅黑`;
+                imgctx.fillStyle = '#f4f4';
+                imgctx.fillText(text, img.width / 2, img.height / 2);
+                canvasHandle.init();
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas的图片处理</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id='myCanvas' width="800" height="800"></canvas>
+
+    <script>
+        //var canvas
+        window.onload = function() {
+
+
+            var canvas = document.getElementById('myCanvas');
+            var context = canvas.getContext('2d');
+            let casW = canvas.width,
+                casH = canvas.height;
+            //image
+            (function() {
+                //实际图片
+                var img = new Image();
+                img.onload = function() {
+                    context.drawImage(img, 0, 0);
+                    let imgW = img.width,
+                        imgH = img.height;
+                    console.log('imgW',imgW);
+                    var imageData = context.getImageData(0, 0, casW, casH); //图片信息
+                    var pixels = imageData.data //写入图片后获取图片的rgba信息
+                    context.clearRect(0, 0, casW, casH) //清空图片
+                    //马赛克个数：
+                    var rows = 100; //竖着几行
+                    var cols = 100; //横着每列
+                    //每块尺寸：
+                    var wid = imgW / cols;
+                    var hei = imgH / rows;
+
+                    for (var r = 0; r < rows; r++) //一行行绘制
+                    {
+                        for (var c = 0; c < cols; c++) //一列列绘制
+                        {
+                            var x = (c * wid) + (wid / 2);
+                            var y = (r * hei) + (hei / 2);
+                            var pos = (Math.floor(y) * (imageData.width * 4)) + (Math.floor(x) * 4);
+                            var red = pixels[pos];
+                            var green = pixels[pos + 1];
+                            var blue = pixels[pos + 2];
+                            x = x + (Math.random() - 0.5) * 10 + 30;
+                            y = y + (Math.random() - 0.5) * 10 + 30;
+                            r2 = wid * Math.random() * 2;
+                            alp = Math.random();
+                            context.beginPath();
+                            context.arc(x, y, r2, 0, 2 * Math.PI, false);
+                            context.fillStyle = 'rgba(' + red + ',' + green + ',' + blue + ',' + alp + ')';
+                            context.fill();
+                        }
+                    }
+                }
+                img.src = 'assest/test.jpg';
+            })();
+        }
+    </script>
+
+</body>
+
+</html>

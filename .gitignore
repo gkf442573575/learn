@@ -1,0 +1,9 @@
+node_modules
+dist
+.DB_store
+node_modules/  
+**/.DS_Store  
+dist/
+.wepycache
+.idea
+.idea/

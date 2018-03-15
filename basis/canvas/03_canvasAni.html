@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="myCanvas" width="1920" height="1000"></canvas>
+<script>
+
+
+    //随机大小、随机尺寸
+    //划分区块？
+    //var canvas
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var imgMap = new Image();
+
+    var ball = function (obj) {
+        this.posO =
+            {
+                x: obj.x,
+                y: obj.y
+            };
+        this.posE = {};
+        this.append();
+    };
+    ball.prototype.append = function () {
+        this.posE.x = this.posO.x + Math.random() * 15;
+        this.posE.y = this.posO.y + Math.random() * 15;
+        this.alpha = Math.random() * 0.5 + 0.4;
+        this.aSpeed = 0.02 + Math.random() / 50;
+        this.r = 0;
+        //this.r=(s.r)*0.3*Math.random();
+        this.rSpeed = Math.random() * 0.3;
+    };
+    ball.prototype.update = function () {
+        if (this.alpha < 0) this.append();
+        this.r += this.rSpeed;
+        this.alpha -= this.aSpeed;
+    };
+    ball.prototype.draw = function () {
+        var _this = this;
+        context.beginPath();
+        context.arc(_this.posE.x, _this.posE.y, _this.r, 0, 2 * Math.PI, false);
+        context.fillStyle = 'rgba(39,232,255,' + _this.alpha + ')';
+        context.fill();
+    };
+    ball.prototype.gogogo = function () {
+        this.update();
+        this.draw();
+    };
+
+    //功能区
+    var s =
+        {
+            width: 1200,//地图的宽
+            height: 392,//地图的高
+            rows: 150,//竖着几行
+            cols: 150,//横着每列
+            balls: []//放置点点
+        };
+    s.interval = function () {
+        setInterval(function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < s.balls.length; i++) {
+                s.balls[i].gogogo()
+            }
+        }, 1000 / 15)
+
+    };
+    s.imageFn = function (map) {
+        s.r = (s.width / s.rows) * 0.5;
+        context.clearRect(0, 0, s.width, s.height);//再画
+        context.drawImage(map, 0, 0, s.width, s.height);
+        var imageData = context.getImageData(0, 0, s.width, s.height);//图片信息
+        context.clearRect(0, 0, s.width, s.height)//清空图片
+        var pixels = imageData.data//写入图片后获取图片的rgba信息
+        var wid = imageData.width / s.cols;
+        var hei = imageData.height / s.rows;
+        for (var r = 0; r < s.rows; r++)//一行行绘制
+        {
+            for (var c = 0; c < s.cols; c++)//一列列绘制
+            {
+                var x = (c * wid) + (wid / 2);
+                var y = (r * hei) + (hei / 2);
+                var pos = (Math.floor(y) * (imageData.width * 4)) + (Math.floor(x) * 4);
+                if (pixels[pos] > 30) {
+                    var ballsingle = new ball({x: x, y: y});
+                    s.balls.push(ballsingle);
+                }
+            }
+        }
+        s.interval();
+
+    };
+    //图片加载
+    imgMap.onload = function () {
+        s.imageFn(imgMap);
+    }
+    imgMap.src = "./assest/test10.jpg";
+</script>
+</body>
+</html>
