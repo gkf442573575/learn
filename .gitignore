@@ -7,3 +7,4 @@ dist/
 .wepycache
 .idea
 .idea/
+npm-debug.log
