@@ -5,12 +5,15 @@
  */
 
 import React, { Component } from 'react';
+// import RNC from 'react-native-css';
 import {
   Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
+
+import StyleApp from './styleApp'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -33,27 +36,16 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Text>
+          更改文件显示
+        </Text>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: '#f4f4'
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const styles = StyleSheet.create(StyleApp);
+
+
+
+
