@@ -1,1 +1,1 @@
-### 针对css，JavaScript 的基础研究
+### 针对css，JavaScript 的基础学习
