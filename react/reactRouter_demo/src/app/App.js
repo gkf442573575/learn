@@ -1,10 +1,11 @@
 import React,{Component} from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router,Switch,Route, Link } from "react-router-dom";
 
 
 import Home from '../components/home';
 import About from '../components/about';
 import Inbox from '../components/inbox';
+import Page404 from '../components/page404';
 class App extends Component {
     render(){
         return (
@@ -21,9 +22,12 @@ class App extends Component {
                             <Link to='/inbox'>INBOX</Link>
                         </li>
                     </ul>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/about/:id' component={About} />
-                    <Route path='/inbox' component={Inbox} />
+                    <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route path='/about/:id' component={About} />
+                        <Route path='/inbox' component={Inbox} />
+                        <Route component = {Page404} />
+                    </Switch> 
                 </div>
             </Router>
         )
