@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>栈</title>
+</head>
+
+<body>
+    <script>
+        function Stack() {
+            this.dataStore = [];
+            this.top = 0;
+            this.push = push;
+            this.pop = pop;
+            this.peek = peek;
+            this.clear = clear;
+            this.length = length;
+        }
+
+        function push(element) {
+            this.dataStore[this.top++] = element;
+        }
+
+        function peek() {
+            return this.dataStore[this.top - 1];
+        }
+
+        function pop() {
+            return this.dataStore[--this.top];
+        }
+
+        function clear() {
+            this.top = 0;
+        }
+
+        function length() {
+            return this.top;
+        }
+        var s = new Stack();
+        s.push("David");
+        s.push("Raymond");
+        s.push("Bryan");
+        console.log('s', s.dataStore);
+
+        console.log("length: " + s.length());
+        console.log(s.peek());
+        var popped = s.pop();
+        console.log("The popped element is: " + popped);
+        console.log(s.peek());
+        s.push("Cynthia");
+        console.log(s.peek());
+        s.clear();
+        console.log("length: " + s.length());
+        console.log(s.peek());
+        s.push("Clayton");
+        console.log(s.peek());
+
+
+        function mulBase(num, base) {
+            var s = new Stack();
+            do {
+                s.push(num % base);
+                num = Math.floor(num /= base);
+            } while (num > 0);
+            var converted = "";
+            while (s.length() > 0) {
+                converted += s.pop();
+            }
+            return converted;
+        }
+
+        let num = 32,
+            base = 2;
+        console.log(num + '转换成' + base + '进制是' + mulBase(32,2));
+        base = 8;
+        console.log(num + '转换成' + base + '进制是' + mulBase(32,8));
+    </script>
+</body>
+
+</html>
