@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>利用栈实现佩兹糖果盒</title>
+</head>
+
+<body>
+    <script>
+        class Stack { // 栈类
+            constructor() {
+                this.dataStore = [];
+                this.top = 0;
+            }
+            push(element) {
+                this.dataStore[this.top++] = element; //向栈压入元素
+            }
+            pop() {
+                return this.dataStore[--this.top]; // 从栈中弹出元素
+            }
+            peek() {
+                return this.dataStore[this.top - 1]; // 取栈顶元素
+            }
+            clear() {
+                this.top = 0;
+            }
+            length() {
+                return this.top;
+            }
+        }
+
+        let sweetbox = new Stack();
+        let arr = ['黄', '红', '白', '红', '白', '黄', '红', '白', '红', '白', '黄', '黄', '红', '白'];
+        arr.forEach(item => {
+            sweetbox.push(item);
+        });
+        function getColor(element, stack) {
+            let getColorStack = new Stack();
+            let setColorStack = new Stack();
+            while(stack.length()>0){
+                if(stack.peek() == element){
+                    getColorStack.push(element);
+                }else{
+                    setColorStack.push(stack.peek()); 
+                }
+                stack.pop();
+            }
+            console.log('getColorStack',getColorStack.dataStore);
+            console.log('setColorStack',setColorStack.dataStore);
+        }
+
+        getColor('黄',sweetbox);
+    </script>
+</body>
+
+</html>

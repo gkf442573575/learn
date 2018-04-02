@@ -10,55 +10,48 @@
 
 <body>
     <script>
-        function Stack() {
-            this.dataStore = [];
-            this.top = 0;
-            this.push = push;
-            this.pop = pop;
-            this.peek = peek;
-            this.clear = clear;
-            this.length = length;
-        }
-
-        function push(element) {
-            this.dataStore[this.top++] = element;
-        }
-
-        function peek() {
-            return this.dataStore[this.top - 1];
-        }
-
-        function pop() {
-            return this.dataStore[--this.top];
-        }
-
-        function clear() {
-            this.top = 0;
-        }
-
-        function length() {
-            return this.top;
+        class Stack {  // 栈类
+            constructor() {
+                this.dataStore = [];
+                this.top = 0;
+            }
+            push(element) {
+                this.dataStore[this.top++] = element; //向栈压入元素
+            }
+            pop() {
+                return this.dataStore[--this.top]; // 从栈中弹出元素
+            }
+            peek() {
+                return this.dataStore[this.top - 1]; // 取栈顶元素
+            }
+            clear() {
+                this.top = 0;
+            }
+            length() {
+                return this.top;
+            }
         }
         var s = new Stack();
         s.push("David");
         s.push("Raymond");
         s.push("Bryan");
+        s.push("小明");
         console.log('s', s.dataStore);
 
         console.log("length: " + s.length());
         console.log(s.peek());
-        var popped = s.pop();
-        console.log("The popped element is: " + popped);
+        console.log('第一个', s.pop());
+        console.log('第二个', s.pop());
         console.log(s.peek());
         s.push("Cynthia");
         console.log(s.peek());
         s.clear();
-        console.log("length: " + s.length());
-        console.log(s.peek());
+        console.log("清空后length: " + s.length());
+        console.log("清空后的栈顶元素", s.peek());
         s.push("Clayton");
         console.log(s.peek());
 
-
+        // 实现进制转换
         function mulBase(num, base) {
             var s = new Stack();
             do {
@@ -74,9 +67,27 @@
 
         let num = 32,
             base = 2;
-        console.log(num + '转换成' + base + '进制是' + mulBase(32,2));
+        console.log(num + '转换成' + base + '进制是' + mulBase(32, 2));
         base = 8;
-        console.log(num + '转换成' + base + '进制是' + mulBase(32,8));
+        console.log(num + '转换成' + base + '进制是' + mulBase(32, 8));
+
+        // 判断字符串是否是回文
+        function isPalindrome(word) {
+            var s = new Stack();
+            word.forEach(item => {
+                s.push(item);
+            });
+            var rword = '';
+            while (s.length() > 0) {
+                rword += s.pop();
+            }
+            return rword == word ? true : false;
+        }
+
+
+    
+
+
     </script>
 </body>
 
