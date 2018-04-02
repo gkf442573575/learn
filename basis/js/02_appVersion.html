@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>比较app的版本信息</title>
+</head>
+
+<body>
+    <script>
+        let appVersion = '0.0.0', // 现在app的版本
+            lowAppVersion = '1.2.3', //app功能最低版本
+            isAppLow = false; // 是否大于最低版本
+
+
+        function toNum(a) {
+            a = a.toString();
+            //也可以这样写 var c=a.split(/\./);
+            var c = a.split('.');
+            console.log('c',c);
+            
+            var num_place = ["", "0", "00", "000", "0000"],
+                r = num_place.reverse();
+                console.log('r',r);
+                
+            for (var i = 0; i < c.length; i++) {
+                var len = c[i].length;
+                c[i] = r[len] + c[i];                
+            }
+            console.log('c',c);
+            
+            var res = c.join('');
+            console.log('res',parseFloat(res));
+            
+            return res;
+        }
+
+        function cpr_version(a, b) {
+            var _a = toNum(a),
+                _b = toNum(b);
+            if (_a == _b) {
+                console.log("版本号相同！版本号为：" + a)
+            };
+            if (_a > _b) {
+                console.log("版本号" + a + "是新版本！")
+            };
+            if (_a < _b) {
+                console.log("版本号" + b + "是新版本！");
+            }
+        }
+        var a = "2.2.3";
+        b = "2.1.15";
+        cpr_version(a, b);
+    </script>
+</body>
+
+</html>
