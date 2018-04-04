@@ -92,37 +92,43 @@
             let top_tree = (main_h - tree_h - 50);
             let overtop_width = Math.floor((main_w - tree_w - 20) / 2);
 
-            let tree_r = Math.ceil(Math.sqrt(Math.pow(tree_w, 2) + Math.pow(tree_h, 2))) + 50;
-            let left_arr = randomNM(main_w, 50, ball_len);
+            let tree_r = Math.ceil((Math.sqrt(Math.pow(tree_w, 2) + Math.pow(tree_h, 2))) / 2) + 50;
+            let deg = Math.floor(360 / ball_len);
+
+            // let left_arr = randomNM(main_w, 50, ball_len);
             console.log('tree_r', tree_r);
-            $('.ball').each(function(index) {
-                let top = (Math.random() * (350 - 100)) + 100;
-                let cssObj = {};
-                if (top > top_tree) {
-                    let even = index % 2 == 0 ? true : false;
-                    let random_x = Math.random() * (overtop_width - 60);
-                    if (even) {
-                        cssObj = {
-                            left: random_x,
-                            top: top
-                        }
-                    } else {
-                        cssObj = {
-                            right: random_x,
-                            top: top
-                        }
-                    }
-                    console.log('cssObj', cssObj);
-                } else {
-                    cssObj = {
-                        left: left_arr[index],
-                        top: top
-                    }
-                }
+            console.log('deg', deg);
+            console.log(Math.cos((3/5)));
 
 
-                $(this).css(cssObj);
-            });
+            // $('.ball').each(function(index) {
+            //     let top = (Math.random() * (350 - 100)) + 100;
+            //     let cssObj = {};
+            //     if (top > top_tree) {
+            //         let even = index % 2 == 0 ? true : false;
+            //         let random_x = Math.random() * (overtop_width - 60);
+            //         if (even) {
+            //             cssObj = {
+            //                 left: random_x,
+            //                 top: top
+            //             }
+            //         } else {
+            //             cssObj = {
+            //                 right: random_x,
+            //                 top: top
+            //             }
+            //         }
+            //         console.log('cssObj', cssObj);
+            //     } else {
+            //         cssObj = {
+            //             left: left_arr[index],
+            //             top: top
+            //         }
+            //     }
+
+
+            //     $(this).css(cssObj);
+            // });
 
 
 
