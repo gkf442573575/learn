@@ -33,7 +33,17 @@
             background-color: salmon;
             position: absolute;
         }
-
+        @keyframes ballfloat {
+            0%{
+                transform: translateY(5px);
+            }
+            50%,100%{
+                transform: translateY(0);
+            }
+            75%{
+                transform: translateY(-5px);
+            }
+        }
         #tree {
             width: 0;
             height: 0;
@@ -45,15 +55,6 @@
             bottom: 0;
             transform: translateX(-50%);
         }
-
-        /* .row{
-            background-color: sienna;
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            border-radius: 50%;
-        } */
     </style>
 </head>
 
@@ -65,17 +66,11 @@
         <div class="ball"></div>
         <div class="ball"></div>
         <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
 
         <div id='tree'></div>
     </div>
     <script>
-        $(function() {
+        $(function () {
             let $tree = $("#tree"),
                 $main = $("#main");
             let main_w = $main.width(),
@@ -92,46 +87,31 @@
             let top_tree = (main_h - tree_h - 50);
             let overtop_width = Math.floor((main_w - tree_w - 20) / 2);
 
-            let tree_r = Math.ceil((Math.sqrt(Math.pow(tree_w, 2) + Math.pow(tree_h, 2))) / 2) + 50;
-            let deg = Math.floor(360 / ball_len);
+            let tree_r = Math.ceil((Math.sqrt(Math.pow(tree_w, 2) + Math.pow(tree_h, 2))) / 2) + 30;
+            let deg = Math.floor(180 / ball_len);
 
             // let left_arr = randomNM(main_w, 50, ball_len);
             console.log('tree_r', tree_r);
             console.log('deg', deg);
-            console.log(Math.cos((3/5)));
+            let deg_arr = [100, 130, 160, 190, 220, 250]
+            let r_x = Math.floor(main_w / 2),
+                r_y = Math.floor(tree_h / 2);
+            console.log('r_x', r_x);
+            console.log('r_y', r_y);
 
-
-            // $('.ball').each(function(index) {
-            //     let top = (Math.random() * (350 - 100)) + 100;
-            //     let cssObj = {};
-            //     if (top > top_tree) {
-            //         let even = index % 2 == 0 ? true : false;
-            //         let random_x = Math.random() * (overtop_width - 60);
-            //         if (even) {
-            //             cssObj = {
-            //                 left: random_x,
-            //                 top: top
-            //             }
-            //         } else {
-            //             cssObj = {
-            //                 right: random_x,
-            //                 top: top
-            //             }
-            //         }
-            //         console.log('cssObj', cssObj);
-            //     } else {
-            //         cssObj = {
-            //             left: left_arr[index],
-            //             top: top
-            //         }
-            //     }
-
-
-            //     $(this).css(cssObj);
-            // });
-
-
-
+            $('.ball').each(function (index) {
+                let hudu = (2 * Math.PI / 360) * deg_arr[index];
+                let x = Math.ceil(r_x + Math.sin(hudu) * tree_r-Math.random()*10),
+                    y = Math.ceil(r_y - Math.cos(hudu) * tree_r+Math.random()*60);
+                console.log('x', x);
+                console.log('y', y);
+                let delay= Math.floor(Math.random()*500+300);
+                $(this).css({
+                    left:x,
+                    bottom:y,
+                    animation: `ballfloat 2s linear ${delay}ms infinite`
+                });
+            });
             function randomNM(n, m, len) { // 生成随机多少个数组  
                 let array = new Array(n)
                     .fill(0)
