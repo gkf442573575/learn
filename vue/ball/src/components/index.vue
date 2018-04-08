@@ -4,6 +4,7 @@
 
 <template>
     <div id='main'>
+        
          <!--html元素代码-->
     </div>
 </template>
