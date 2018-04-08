@@ -22,7 +22,7 @@
             width: 400px;
             height: 500px;
             position: relative;
-            background-color: seagreen;
+            background-color: skyblue;
             margin: 100px auto;
         }
 
@@ -30,26 +30,37 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: salmon;
+            background: radial-gradient(circle, #baf424, #c9f83b, #fff);
             position: absolute;
+            color: #ffffff;
+            text-align: center;
+            line-height: 50px;
         }
+
+        .ball.float {
+            animation: ballfloat 2s linear infinite
+        }
+
         @keyframes ballfloat {
-            0%{
-                transform: translateY(5px);
-            }
-            50%,100%{
+            0% {
                 transform: translateY(0);
             }
-            75%{
+            25% {
+                transform: translateY(5px)
+            }
+            50%,
+            100% {
+                transform: translateY(0);
+            }
+            75% {
                 transform: translateY(-5px);
             }
         }
+
         #tree {
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 200px solid red;
+            width: 100px;
+            height: 200px;
+            background-color: indianred;
             position: absolute;
             left: 50%;
             bottom: 0;
@@ -60,62 +71,91 @@
 
 <body>
     <div id="main">
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
+        <div class="ball">1</div>
+        <div class="ball">2</div>
+        <div class="ball">3</div>
+        <div class="ball">4</div>
+        <div class="ball">5</div>
+        <div class="ball">6</div>
 
         <div id='tree'></div>
     </div>
     <script>
-        $(function () {
+        $(function() {
             let $tree = $("#tree"),
                 $main = $("#main");
             let main_w = $main.width(),
                 main_h = $main.height();
             let tree_w = $tree.get(0).offsetWidth,
                 tree_h = $tree.get(0).offsetHeight;
-            console.log('tree_w', tree_w);
-            console.log('tree_h', tree_h);
-            console.log('main_w', main_w);
-            console.log('main_h', main_h);
             let $ball = $(".ball");
             let ball_len = $ball.length;
-            console.log('ball_len', ball_len);
-            let top_tree = (main_h - tree_h - 50);
-            let overtop_width = Math.floor((main_w - tree_w - 20) / 2);
-
+            // 园半径
             let tree_r = Math.ceil((Math.sqrt(Math.pow(tree_w, 2) + Math.pow(tree_h, 2))) / 2) + 30;
-            let deg = Math.floor(180 / ball_len);
-
-            // let left_arr = randomNM(main_w, 50, ball_len);
-            console.log('tree_r', tree_r);
-            console.log('deg', deg);
-            let deg_arr = [100, 130, 160, 190, 220, 250]
+            // 角度的数组
+            let deg_arr = [100, 130, 160, 190, 220, 250];
+            deg_arr = shuffle(deg_arr);
+            // 获取圆心坐标
             let r_x = Math.floor(main_w / 2),
                 r_y = Math.floor(tree_h / 2);
-            console.log('r_x', r_x);
-            console.log('r_y', r_y);
-
-            $('.ball').each(function (index) {
+            $ball.each(function(index) {
                 let hudu = (2 * Math.PI / 360) * deg_arr[index];
-                let x = Math.ceil(r_x + Math.sin(hudu) * tree_r-Math.random()*10),
-                    y = Math.ceil(r_y - Math.cos(hudu) * tree_r+Math.random()*60);
-                console.log('x', x);
-                console.log('y', y);
-                let delay= Math.floor(Math.random()*500+300);
+                let x = Math.ceil(r_x + Math.sin(hudu) * tree_r - Math.random() * 10),
+                    y = Math.ceil(r_y - Math.cos(hudu) * tree_r + Math.random() * 60);
+                let delay = Math.floor(Math.random() * 1000 + 300);
+                $(this).addClass('float');
                 $(this).css({
-                    left:x,
-                    bottom:y,
-                    animation: `ballfloat 2s linear ${delay}ms infinite`
+                    left: x,
+                    bottom: y,
+                    'animation-delay': `${delay}ms`
                 });
             });
-            function randomNM(n, m, len) { // 生成随机多少个数组  
-                let array = new Array(n)
+
+
+
+
+            $ball.click(function() {
+                $(this).removeClass('float');
+
+                $(this).animate({
+                    left: r_x - 25,
+                    bottom: r_y - 25,
+                    opacity: 0
+                }, 1000, () => {
+                    let treeW = $tree.get(0).offsetWidth,
+                        treeH = $tree.get(0).offsetHeight;
+                    $tree.animate({
+                        width: treeW * 1.04,
+                        height: treeH * 1.04
+                     })
+                });
+            });
+
+            function random(min, max) {
+                if (max == null) {
+                    max = min;
+                    min = 0;
+                }
+                return min + Math.floor(Math.random() * (max - min + 1));
+            };
+
+            function shuffle(arr) {
+                var length = arr.length,
+                    shuffled = new Array(length);
+                for (var index = 0, rand; index < length; index++) {
+                    rand = random(0, index);
+                    if (rand !== index) {
+                        shuffled[index] = shuffled[rand]
+                    };
+                    shuffled[rand] = arr[index];
+                }
+                return shuffled;
+            }
+
+            function randomNM(n, m, len) { //n到m之间len个不重复的数
+                let array = new Array(m - n)
                     .fill(0)
-                    .map((v, i) => i + m)
+                    .map((v, i) => i + n)
                     .sort(() => 0.5 - Math.random())
                     .filter((v, i) => i < len);
                 return array;
