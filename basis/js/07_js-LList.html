@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>js链表</title>
+    <title>循环链表</title>
 </head>
 
 <body>
@@ -18,6 +18,7 @@
         class LList {
             constructor() {
                 this.head = new Node('head');
+                this.head.next = this.head;
             }
             find(item) {
                 let currNode = this.head;
@@ -34,8 +35,8 @@
             }
             display() {
                 let currNode = this.head;
-                while (!(currNode.next == null)) {
-                    console.log(currNode.next.element);
+                while (!(currNode.next == null) && !(currNode.next.element == 'head')) {
+                    document.write(currNode.next.element + '&nbsp;');
                     currNode = currNode.next;
                 }
             }
@@ -58,8 +59,6 @@
         cities.insert("Russellville", "Conway");
         cities.insert("Carlisle", "Russellville");
         cities.insert("Alma", "Carlisle");
-        cities.display();
-        cities.remove("Carlisle");
         cities.display();
     </script>
 </body>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>双向链表</title>
+</head>
+
+<body>
+    <script>
+        function Node(element) {
+            this.element = element;
+            this.next = null;
+            this.previous = null;
+        }
+
+        class LList {
+            constructor() {
+                this.head = new Node('head');
+                this.currentNode = this.head; // 当前节点
+            }
+            find(item) {
+                let currNode = this.head;
+                while (currNode.element != item) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+            insert(newElement, item) {
+                let newNode = new Node(newElement);
+                let current = this.find(item);
+                newNode.next = current.next;
+                newNode.previous = current;
+                current.next = newNode;
+            }
+            display() {
+                let currNode = this.head;
+                while (!(currNode.next == null)) {
+                    console.log(currNode.next.element);
+                    currNode = currNode.next;
+                }
+            }
+            remove(item) {
+                let currNode = this.find(item);
+                if (!(currNode.next == null)) {
+                    currNode.previous.next = currNode.next;
+                    currNode.next.previous = currNode.previous;
+                    currNode.next = null;
+                    currNode.previous = null;
+                }
+            }
+            findLast() {
+                let currNode = this.head;
+                while (!(currNode.next == null)) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+            dispReverse() {
+                let currNode = this.head;
+                currNode = this.findLast();
+                while (!(currNode.previous == null)) {
+                    console.log('currNode', currNode.element);
+                    currNode = currNode.previous;
+                }
+            }
+            advance(n) { // 把当前节点向后移动n位
+                while (n > 0 && !(this.currentNode.next == null)) {
+                    this.currentNode = this.currentNode.next;
+                    n--;
+                }
+            }
+            back(n) {  //把当前节点向前移动n位
+                while (n > 0 && !(this.currentNode.element == 'head')) {
+                    this.currentNode = this.currentNode.previous;
+                    n--;
+                }
+            }
+            show(){
+                console.log('currentNode.element',this.currentNode.element);
+                return this.currentNode.element;
+            }
+        }
+        let cities = new LList();
+        cities.insert("Conway", "head");
+        cities.insert("Russellville", "Conway");
+        cities.insert("Carlisle", "Russellville");
+        cities.insert("Alma", "Carlisle");
+        cities.show();
+        cities.advance(5);
+        cities.show();
+        cities.back(2);
+        cities.show();
+    </script>
+</body>
+
+</html>
