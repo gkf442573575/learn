@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组排序</title>
+</head>
+
+<body>
+
+    <script>
+        // 冒泡排序
+        function bubbleSort(arr) {
+            let len = arr.length;
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < len - 1 - i; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j + 1]; //元素交换
+                        arr[j + 1] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+        // 选择排序
+        function selectionSort(arr) {
+            let len = arr.length;
+            let minIndex, temp;
+            for (let i = 0; i < len; i++) {
+                minIndex = i;
+                for (let j = i + 1; j < len; j++) {
+                    if (arr[j] < arr[minIndex]) { //寻找最小的数
+                        minIndex = j; //将最小数的索引保存
+                    }
+                }
+                temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+            return arr;
+        }
+        //插入排序
+        function insertionSort(arr) {
+            let len = arr.length;
+            let preIndex, current;
+            for (let i = 0; i < len; i++) {
+                preIndex = i - 1;
+                current = arr[i];
+                while (preIndex >= 0 && arr[preIndex] > current) {
+                    arr[preIndex + 1] = arr[preIndex];
+                    preIndex--;
+                }
+                if (preIndex >= 0) {
+                    arr[preIndex] = current;
+                }
+            }
+            return arr;
+        }
+        // 希尔排序
+        function shellSort(arr) {
+            let len = arr.length,
+                temp,
+                gap = 1;
+
+            while (gap < len / 3) {
+                gap = gap * 3 + 1;
+            }
+            console.log('gap', gap);
+
+            for (gap; gap > 0; gap = Math.floor(gap / 3)) {
+                for (let i = gap; i < len; i++) {
+                    temp = arr[i];
+                    for (let j = i - gap; j > 0 && arr[j] > temp; j -= gap) {
+                        arr[j + gap] = arr[j];
+                    }
+                    if (i + gap >= 0) {
+                        arr[i + gap] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+        // 归并排序
+        function mergeSort(arr) {
+            let len = arr.length;
+            if (len < 2) {
+                return arr;
+            }
+            let middle = Math.floor(len / 2);
+            let left = arr.slice(0, middle),
+                right = arr.slice(middle);
+            return merge(mergeSort(left), mergeSort(right));
+        }
+
+        function merge(left, right) {
+            let result = [];
+            while (left.length > 0 && right.length > 0) {
+                if (left[0] <= right[0]) {
+                    result.push(left.shift());
+                } else {
+                    result.push(right.shift());
+                }
+            }
+            while (left.length) {
+                result.push(left.shift())
+            }
+            while (right.length) {
+                result.push(right.shift())
+            }
+            return result;
+        }
+
+
+        let arr = [1, 4, 6, 3, 8, 10, 2];
+        let bubbleArr = bubbleSort(arr);
+        let selectionArr = selectionSort(arr);
+        let insertionArr = insertionSort(arr);
+        let shellArr = shellSort(arr);
+        let mergeArr = mergeSort(arr);
+        console.log('bubbleArr', bubbleArr);
+        console.log('selectionArr', selectionArr);
+        console.log('insertionArr', insertionArr);
+        console.log('shellArr', shellArr);
+        console.log('mergeArr',mergeArr);
+        
+    </script>
+</body>
+
+</html>
