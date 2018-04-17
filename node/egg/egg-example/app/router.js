@@ -1,6 +1,4 @@
 
-
-
 /**
  * @param {Egg.Application} app - egg application
  */
