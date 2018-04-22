@@ -8,17 +8,17 @@ const todos = (state = [], action) => {
                     text: action.text,
                     completed: false
                 }
-            ]
+            ];
+            break;
         case 'TOGGLE_TODO':
-            return state.map(todo =>
-                (todo.id === action.id) ?
-                { ...todo,
-                    completed: !todo.completed
-                } :
-                todo
-            )
+            return state.map(todo => (todo.id === action.id) ? {
+                ...todo,
+                completed: !todo.completed
+            } : todo)
+            break;
         default:
-            return state
+            return state;
     }
-}
-export default todos
+};
+
+export default todos;
