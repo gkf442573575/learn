@@ -113,6 +113,28 @@
 
 
 
+            function setBallEdg(len) {
+                let arr = [];
+                let deg_arr = [100, 130, 160, 190, 220, 250]; //1 :3
+                let degLen = deg_arr.length;
+                if (len <= degLen) {
+                    let startNum = Math.floor((degLen - len) / 2);
+                    let endNum = startNum + len;
+                    arr = deg_arr.slice(startNum, endNum);
+                    arr = shuffle(arr);
+                } else {
+                    let startNum = Math.floor(((2 * degLen) - len) / 2);
+                    let endNum = startNum + (len - degLen);
+                    let overArr = deg_arr.slice(startNum, endNum);
+                    overArr = shuffle(overArr);
+                    arr = shuffle(deg_arr).concat(overArr);
+                }
+                return arr;
+            }
+
+            console.log('setBall', setBallEdg(3));
+
+
 
             $ball.click(function() {
                 $(this).removeClass('float');
@@ -127,7 +149,7 @@
                     $tree.animate({
                         width: treeW * 1.04,
                         height: treeH * 1.04
-                     })
+                    })
                 });
             });
 
