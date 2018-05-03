@@ -25,7 +25,7 @@
         this._init(options);
     }
 
-    myVue.prototype._init = function (options) {
+    myVue.prototype._init = function(options) {
         this.$options = options;
         this.$el = document.querySelector(options.el);
         this.$data = options.data;
@@ -36,7 +36,7 @@
         this._complie(this.$el);
     }
 
-    myVue.prototype._obverse = function (obj) {
+    myVue.prototype._obverse = function(obj) {
         var value;
         for (key in obj) {
             if (obj.hasOwnProperty(key)) {
@@ -51,15 +51,15 @@
                 Object.defineProperty(this.$data, key, {
                     enumerable: true,
                     configurable: true,
-                    get: function () {
+                    get: function() {
                         console.log(`获取${value}`);
                         return value;
                     },
-                    set: function (newVal) {
+                    set: function(newVal) {
                         console.log(`更新${newVal}`);
                         if (value !== newVal) {
                             value = newVal;
-                            binding._directives.forEach(function (item) {
+                            binding._directives.forEach(function(item) {
                                 item.update();
                             })
                         }
@@ -69,7 +69,7 @@
         }
     }
 
-    myVue.prototype._complie = function (root) {
+    myVue.prototype._complie = function(root) {
         var _this = this;
         var nodes = root.children;
         for (var i = 0; i < nodes.length; i++) {
@@ -79,14 +79,14 @@
             }
 
             if (node.hasAttribute('v-click')) {
-                node.onclick = (function () {
+                node.onclick = (function() {
                     var attrVal = nodes[i].getAttribute('v-click');
                     return _this.$methods[attrVal].bind(_this.$data);
                 })();
             }
 
             if (node.hasAttribute('v-model') && (node.tagName == 'INPUT' || node.tagName == 'TEXTAREA')) {
-                node.addEventListener('input', (function (key) {
+                node.addEventListener('input', (function(key) {
                     var attrVal = node.getAttribute('v-model');
                     _this._binding[attrVal]._directives.push(new Watcher(
                         'input',
@@ -96,7 +96,7 @@
                         'value'
                     ))
 
-                    return function () {
+                    return function() {
                         _this.$data[attrVal] = nodes[key].value;
                     }
                 })(i));
@@ -125,18 +125,18 @@
         this.update();
     }
 
-    Watcher.prototype.update = function () {
+    Watcher.prototype.update = function() {
         this.el[this.attr] = this.vm.$data[this.exp];
     }
 
-    window.onload = function () {
+    window.onload = function() {
         var app = new myVue({
             el: '#app',
             data: {
                 number: 0
             },
             methods: {
-                increment: function () {
+                increment: function() {
                     this.number++;
                 },
             }
