@@ -22,14 +22,12 @@
 
     <div id="turntable">
 
-
-        <div class="turntable-btn" href="javascript:;">抽奖</div>
     </div>
 
 
     <script src="./js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // gbTurntable.init({
             //     el: '#turntable',
             //     prizes:['1元红包', '2元红包', '3元红包', '4元红包', '5元红包', '6元红包'],
@@ -48,6 +46,8 @@
 
             let a = new Turntable({
                 el: '#turntable',
+                width: 600,
+                height: 600,
                 prizes: [{
                     text: '1元红包',
                     color: '#ffffff'

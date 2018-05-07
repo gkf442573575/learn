@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var $,
         ele,
         container,
@@ -24,7 +24,7 @@
         cssSupport = {};
 
     // 嗅探特性
-    Object.keys(vendors).some(function(vendor) {
+    Object.keys(vendors).some(function (vendor) {
         if (testEle.style[vendor + (vendor ? 'T' : 't') + 'ransitionProperty'] !== undefined) {
             cssPrefix = vendor ? '-' + vendor.toLowerCase() + '-' : '';
             eventPrefix = vendors[vendor];
@@ -210,13 +210,13 @@
      * @return {[type]} [description]
      */
     function events() {
-        bind(btn, 'click', function() {
+        bind(btn, 'click', function () {
             /*      var prizeId,
                       chances;*/
 
             addClass(btn, 'disabled');
 
-            fnGetPrize(function(data) {
+            fnGetPrize(function (data) {
                 optsPrize = {
                     prizeId: data[0],
                     chances: data[1]
@@ -293,7 +293,7 @@
     }
 
     var gbTurntable = {
-        init: function(opts) {
+        init: function (opts) {
             return init(opts);
         }
     }
@@ -303,7 +303,7 @@
 
     // AMD (@see https://github.com/jashkenas/underscore/blob/master/underscore.js)
     if (typeof define == 'function' && define.amd) {
-        define('canvas-turntable', [], function() {
+        define('canvas-turntable', [], function () {
             return gbTurntable;
         });
     }
@@ -313,7 +313,7 @@
 
 
 
-(function(global, factory) {
+(function (global, factory) {
 
     "use strict";
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -321,7 +321,7 @@
         (global.Turntable = factory());
 
     // Pass this if window is not defined yet
-})(typeof window !== "undefined" ? window : this, (function() {
+})(typeof window !== "undefined" ? window : this, (function () {
 
 
     /**
@@ -376,9 +376,11 @@
             // 初始化的角度
             this.startAngle = 0;
             this.textR = opts.textR || this.canvasW * 0.4;
+            this.angelTo = opts.angelTo || 0;
             this.init();
         }
         init() {
+            addClass(this.el, 'turntable');
             let CANVAS = this.el.querySelector('.turntable-canvas');
             if (CANVAS) {
                 CANVAS.width = this.canvasH;
@@ -404,77 +406,50 @@
             this.el.appendChild(canvasChild);
             callback()
         }
-        drawTurntable() {
-
+        drawTurntable(angelTo) {
+            angelTo = angelTo || 0;
             let canvas = this.el.querySelector('.turntable-canvas');
             let ctx = canvas.getContext('2d');
+            let x = this.canvasW / 2,
+                y = this.canvasH / 2;
+
             // 礼物长度
             let prizesLen = this.prizes.length;
-            var baseAngle = Math.PI * 2 / prizesLen;
             let rotateDeg = 360 / (prizesLen * 2) + 90; // 扇形回转角度
-            let canvasH = this.canvasH,
-                canvasW = this.canvasW;
-            //在给定矩形内清空一个矩形
-            ctx.clearRect(0, 0, canvasW, canvasH);
-            //
-            ctx.strokeStyle = "#FFBE04"; // 红色
-            //font 画布上文本内容的当前字体属性
-            ctx.font = '16px Microsoft YaHei';
-            // 圆心坐标
-
-            let roundX = canvasW / 2,
-                roundY = canvasH / 2;
-
-            for (let i = 0; i < prizesLen; i++) {
+            ctx.clearRect(0, 0, this.canvasW, this.canvasH);
+            // 平分角度
+            let angle = (2 * Math.PI / 360) * (360 / prizesLen);
+            let startAngle = angle / 2;
+            for (var i = 0; i < prizesLen; i++) {
                 let item = this.prizes[i];
-                let angle = this.startAngle + i * baseAngle;
                 let fillStyle = item.color || '#fff';
-                // 保存当前状态
-                // ctx.save();
-                // 开始绘制
+                ctx.save()
                 ctx.beginPath();
-                // // 位移到圆心，下面需要围绕圆心旋转
-                // ctx.translate(roundX, roundY);
-                // // 从(0, 0)坐标开始定义一条新的子路径
-                // ctx.moveTo(0, 0);
-                // // 旋转弧度,需将角度转换为弧度,使用 degrees * Math.PI/180 公式进行计算。
-                // ctx.rotate((360 / prizesLen * i - rotateDeg) * Math.PI / 180);
-                // // 绘制圆弧
-                // ctx.arc(0, 0, roundX, 0, 2 * Math.PI / prizesLen, false);
-
-                let text = item.text;
-
-                ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-
-                // ctx.arc(roundX, roundY, 150, angle, angle + baseAngle, false);
-                // ctx.arc(roundX, roundY, 75, angle + baseAngle, angle, true);
-                // 填充颜色
+                ctx.translate(x, y)
+                ctx.moveTo(0, 0);
+                ctx.rotate((360 / prizesLen * i - rotateDeg) * Math.PI / 180);
+                ctx.arc(0, 0, this.canvasW / 2, 0, 2 * Math.PI / prizesLen, false);
                 ctx.fillStyle = fillStyle;
                 ctx.fill();
-                ctx.stroke();
+                // 保存一次
+                // ctx.rotate(0);
+                // ctx.save();
 
+                // ctx.rotate(startAngle);
+                ctx.fillStyle = item.fontStyle || '#333';
+                ctx.textAlign = "center";
+                ctx.fillText(item.text, 0, -200);
+                // ctx.restore();
 
-                ctx.save();
-                // // 字体颜色
-                let fontColor = item.fontColor || '#333';
-
-                ctx.fillStyle = fontColor;
-
-                // translate方法重新映射画布上的 (0,0) 位置
-                // context.translate(x,y);
-                let translateX = roundX + Math.cos(angle + baseAngle / 2) * this.textR;
-                let translateY = roundY + Math.sin(angle + baseAngle / 2) * this.textR;
-                ctx.translate(translateX, translateY);
-                // rotate方法旋转当前的绘图，因为文字适合当前扇形中心线垂直的！
-                // angle，当前扇形自身旋转的角度 +  baseAngle / 2 中心线多旋转的角度  + 垂直的角度90°
-                ctx.rotate(angle + baseAngle / 2 + Math.PI / 2);
-               
-                // 恢复前一个状态
                 ctx.restore();
             }
-
+        }
+        loadimg() { // 加载图片
 
         }
+
+
+
     }
 
 
