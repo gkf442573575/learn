@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/main.css">
+
+    <title>实现一个canvas大转盘代码</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: seagreen;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="turntable">
+
+
+        <div class="turntable-btn" href="javascript:;">抽奖</div>
+    </div>
+
+
+    <script src="./js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // gbTurntable.init({
+            //     el: '#turntable',
+            //     prizes:['1元红包', '2元红包', '3元红包', '4元红包', '5元红包', '6元红包'],
+
+            //     getPrize: function(callback) {
+            //         // 获取中奖信息
+            //         var num = Math.random() * 6 >>> 0, //奖品ID
+            //             chances = num; // 可抽奖次数
+            //         callback && callback([num, chances]);
+            //     },
+            //     gotBack: function(data) {
+            //         alert('恭喜抽中' + data);
+            //     }
+            // });
+
+
+            let a = new Turntable({
+                el: '#turntable',
+                prizes: [{
+                    text: '1元红包',
+                    color: '#ffffff'
+                }, {
+                    text: '2元红包',
+                    color: "#FFF4D7"
+                }, {
+                    text: '3元红包',
+                    color: '#ffffff'
+                }, {
+                    text: '4元红包',
+                    color: "#FFF4D7"
+                }, {
+                    text: '5元红包',
+                    color: '#ffffff'
+                }, {
+                    text: '6元红包',
+                    color: "#FFF4D7"
+                }],
+            });
+            console.log('a', a);
+
+
+        }, false);
+    </script>
+</body>
+
+</html>

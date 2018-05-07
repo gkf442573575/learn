@@ -1,0 +1,29 @@
+{
+  "name": "learn wepack",
+  "version": "1.0.0",
+  "description": "配置一个通用的wepack",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "address": "^1.0.3",
+    "autoprefixer": "^8.4.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "less-loader": "^4.1.0",
+    "node-sass": "^4.9.0",
+    "postcss-loader": "^2.1.4",
+    "precss": "^3.1.2",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
+  }
+}
