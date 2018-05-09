@@ -2,6 +2,10 @@
 
 
 # 定义模块
+'''
+# import * 暴露的全局变量
+__all__= ['test1']
+'''
 
 def test1():
     print('test1')
