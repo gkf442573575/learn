@@ -12,11 +12,12 @@ const config = {
     projectPath,
     srcpath: SRC_PATH,
     htmlpath: SRC_PATH,
-    jspath: './src/js',
+    jspath: './src/js/',
     ignoreJs: ['test'], // 没有入口js文件的html名
     dev: {
         host: devhost,
         port: '8080',
+        autoOpenBrowser: false, // 自动打开浏览器
         assetsPublicPath: '/',
         proxyTable: { // proxy代理
             '/api': {

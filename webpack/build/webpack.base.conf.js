@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const config = require('../config');
+const config = require('./config');
 const fs = require('fs');
 const path = require('path');
 // 生成HTML
@@ -20,21 +20,21 @@ function getHtmlList(path) {
 let htmlDirs = getHtmlList(config.htmlpath);
 // 根据每个html文件来生成HTMLWebpackPlugin实例 和 入口列表
 let HTMLPlugins = [];
-let Entries = [];
+let Entries = {};
 
 htmlDirs.forEach(page => {
     let htmlConfig = {
         filename: `${page}.html`,
-        template: path.join(config.htmlpath, `./${page}.html`)
+        template: `./src/${page}.html`
     };
     let found = config.ignoreJs.findIndex((val) => {
         return val === page;
     });
     if (found == -1) {
         // html文件绑定入口JS和公用JS
-        htmlConfig.chunks = [page, 'commons'];
+        htmlConfig.chunks = [page];
         // 每个HTML文件添加一个入口，除非设置不用
-        Entries[page] = config.jsPath + `${page}.js`;
+        Entries[page] = config.jspath + `${page}.js`;
     } else {
         htmlConfig.chunks = [];
     }
@@ -47,11 +47,14 @@ function resolve(dir) {
 }
 
 
+
 module.exports = {
-    context: config.projectPath,
+    context: path.resolve(__dirname, '../'),
     entry: Entries,
     output: {
-        path: config.build.assetsRoot
+        path: config.build.assetsRoot,
+        filename: 'js/[name].bundle.js',
+        chunkFilename: 'js/[id].js'
     },
     resolve: {
         extensions: ['.js', '.json'],
@@ -88,5 +91,8 @@ module.exports = {
                 }
             }
         ]
-    }
-}
+    },
+    plugins: [
+        ...HTMLPlugins
+    ]
+};

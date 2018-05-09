@@ -1,8 +1,7 @@
 'use strict'
-const path = require('path')
-const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
+const path = require('path');
+const config = require('./config');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 exports.cssLoaders = function(options) {
@@ -22,10 +21,16 @@ exports.cssLoaders = function(options) {
         }
     }
 
-    // generate loader string to be used with extract text plugin
+    const styleLoader = {
+        loader: 'style-loader',
+        options: {
+            sourceMap: options.sourceMap
+        }
+    }
+    
     function generateLoaders(loader, loaderOptions) {
-        const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
-
+        const defaultLoaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+        let loaders = options.extract ? [MiniCssExtractPlugin.loader, ...defaultLoaders] : [styleLoader, ...defaultLoaders];
         if (loader) {
             loaders.push({
                 loader: loader + '-loader',
@@ -34,19 +39,8 @@ exports.cssLoaders = function(options) {
                 })
             })
         }
-
-        if (options.extract) {
-            return ExtractTextPlugin.extract({
-                use: loaders,
-                fallback: 'style-loader',   
-                // publicPath: '../../'  // 最后确定这个图路径
-            })
-        } else {
-            return loaders;
-        }
+        return loaders;
     }
-
-    // https://vue-loader.vuejs.org/en/configurations/extract-css.html
     return {
         css: generateLoaders(),
         postcss: generateLoaders(),
@@ -59,8 +53,6 @@ exports.cssLoaders = function(options) {
         styl: generateLoaders('stylus')
     }
 }
-
-// Generate loaders for standalone style files (outside of .vue)
 exports.styleLoaders = function(options) {
     const output = []
     const loaders = exports.cssLoaders(options)
@@ -72,6 +64,24 @@ exports.styleLoaders = function(options) {
             use: loader
         })
     }
-
     return output;
+}
+
+
+exports.createNotifierCallback = () => {
+    const notifier = require('node-notifier')
+
+    return (severity, errors) => {
+        if (severity !== 'error') return
+
+        const error = errors[0]
+        const filename = error.file && error.file.split('!').pop()
+
+        notifier.notify({
+            title: packageConfig.name,
+            message: severity + ': ' + error.name,
+            subtitle: filename || '',
+            icon: path.join(__dirname, 'logo.png')
+        })
+    }
 }
