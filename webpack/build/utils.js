@@ -10,8 +10,10 @@ exports.cssLoaders = function(options) {
     const cssLoader = {
         loader: 'css-loader',
         options: {
-            sourceMap: options.sourceMap
-        }
+            sourceMap: options.sourceMap,
+            url: false, // 使用正确的相对路径
+            minimize: true,  // 压缩css
+        }  
     }
 
     const postcssLoader = {
@@ -27,7 +29,7 @@ exports.cssLoaders = function(options) {
             sourceMap: options.sourceMap
         }
     }
-    
+
     function generateLoaders(loader, loaderOptions) {
         const defaultLoaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
         let loaders = options.extract ? [MiniCssExtractPlugin.loader, ...defaultLoaders] : [styleLoader, ...defaultLoaders];

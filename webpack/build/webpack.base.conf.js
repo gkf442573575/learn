@@ -4,6 +4,10 @@ const fs = require('fs');
 const path = require('path');
 // 生成HTML
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+// 复制静态资源
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+// 压缩
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // 获取所有的html文件名的集合
 function getHtmlList(path) {
@@ -25,7 +29,8 @@ let Entries = {};
 htmlDirs.forEach(page => {
     let htmlConfig = {
         filename: `${page}.html`,
-        template: `./src/${page}.html`
+        template: `./src/${page}.html`,
+        chunksSortMode: 'dependency'
     };
     let found = config.ignoreJs.findIndex((val) => {
         return val === page;
@@ -67,32 +72,42 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
-            }, {
+            }
+            , {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
-                    name: 'img/[name].[ext]'
+                    limit: 1000,
+                    name: 'assets/[name].[ext]'
                 }
             }, {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
-                    name: 'media/[name].[ext]'
+                    limit: 1000,
+                    name: 'assets/[name].[ext]'
                 }
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
-                    name: 'fonts/[name].[ext]'
+                    limit: 1000,
+                    name: 'assets/[name].[ext]'
                 }
             }
         ]
     },
+    // optimization:{
+    //     minimizer:[
+    //         new OptimizeCSSAssetsPlugin({})
+    //     ]
+    // },
     plugins: [
-        ...HTMLPlugins
+        ...HTMLPlugins,
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, '../src/assets'),
+            to: './assets'
+        }]),
     ]
 };

@@ -16,11 +16,27 @@ module.exports = merge(webpackBaseConfig, {
             usePostCSS: true
         })
     },
+    // optimization: { // 取出公共的modules模块  TODO:未完善，webpack4.0的API实例不太好
+    //     splitChunks: {
+    //         chunks: "all",
+    //         name: 'vendor',
+    //         cacheGroups: {
+    //             vendors: {
+    //                 test: /[\\/]node_modules[\\/]/
+    //             }
+    //         },
+    //     }
+    // },
     plugins: [
+        new cleanWebpackPlugin(["dist"], {
+            root: config.projectPath
+        }),
+        new webpack.HashedModuleIdsPlugin(),
         new MiniCssExtractPlugin({
+            publicPath: '../',
             filename: 'css/[name].css',
             chunkFilename: "css/[id].css",
-            allChunks: true,
+            allChunks: true
         }),
     ]
 });

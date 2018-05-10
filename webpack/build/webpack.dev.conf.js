@@ -1,12 +1,11 @@
 const webpackBaseConfig = require('./webpack.base.conf');
 const config = require('./config');
 const utils = require('./utils');
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-
-
-module.exports =  merge(webpackBaseConfig, {
+module.exports = merge(webpackBaseConfig, {
     mode: 'development',
     output: {
         publicPath: config.dev.assetsPublicPath
