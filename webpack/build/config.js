@@ -7,6 +7,8 @@ const projectPath = process.cwd(); // 项目目录
 
 const SRC_PATH = path.join(projectPath, './src/');
 
+// TODO: 代理的server
+const PROXY_SERVER = 'http://192.1.168.150/web/'
 
 const config = {
     projectPath,
@@ -21,7 +23,7 @@ const config = {
         assetsPublicPath: '/',
         proxyTable: { // proxy代理
             '/api': {
-                target: 'http://www.welife1948.com/',
+                target: PROXY_SERVER, 
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''

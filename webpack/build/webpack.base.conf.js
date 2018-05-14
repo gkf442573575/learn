@@ -98,7 +98,7 @@ module.exports = {
             }
         ]
     },
-    // optimization:{
+    // optimization:{ // 配置压缩  webpack4提出的配置
     //     minimizer:[
     //         new OptimizeCSSAssetsPlugin({})
     //     ]
