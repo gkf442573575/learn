@@ -1,10 +1,7 @@
 (function(global, factory) {
-
     "use strict";
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-        typeof define === 'function' && define.amd ? define(factory) :
-        (global.Turntable = factory());
-
+        typeof define === 'function' && define.amd ? define(factory) : (global.Turntable = factory());
     // Pass this if window is not defined yet
 })(typeof window !== "undefined" ? window : this, (function() {
 
@@ -161,7 +158,7 @@
         let desAngle = 2 * Math.PI / prizesLen;
 
 
-      
+
         let turnNum = 1 / prizesLen;
         let $goodsEl = document.createElement('ul');
         $goodsEl.className = 'turntable-goods';
@@ -182,7 +179,7 @@
 
             ctx.restore();
 
-         
+
             let style = `
                 ${transform}: rotate(${i * turnNum }turn)
             `;
