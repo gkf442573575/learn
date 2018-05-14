@@ -36,7 +36,7 @@ htmlDirs.forEach(page => {
         return val === page;
     });
     if (found == -1) {
-        // html文件绑定入口JS和公用JS
+        // html文件绑定入口JS和页面名相同的
         htmlConfig.chunks = [page];
         // 每个HTML文件添加一个入口，除非设置不用
         Entries[page] = config.jspath + `${page}.js`;
