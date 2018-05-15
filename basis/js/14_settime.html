@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>延时循环</title>
+</head>
+
+<body>
+    <script>
+        for (var i = 0; i < 6; i++) {
+            setTimeout(function timer() {
+                console.log('var', i); // 输出 6个6
+            }, i * 1000);
+        }
+
+
+        for (var i = 0; i < 6; i++) {
+            (function(j) {  // 把i传递给j j的变量作用域在方法中 闭包的原理
+                setTimeout(function timer() {
+                    console.log('IIFE',j); // 输出 0，1，2，3，4，5
+                }, j * 1000);
+            })(i);
+        }
+
+
+        for (let i = 0; i < 6; i++) {
+            // let 的块级作用域 在延时执行中拥有新的作用域
+            setTimeout(function timer() {
+                console.log('let', i); // 输出 0，1，2，3，4，5
+            }, i * 1000);
+        }
+    </script>
+</body>
+
+</html>
