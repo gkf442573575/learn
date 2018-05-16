@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>方法的this指向</title>
+</head>
+
+<body>
+    <script>
+        function foo(num) {
+            console.log('num', num);
+            this.count++;
+        }
+
+        foo.count = 0;
+
+
+        for (let i = 0; i < 4; i++) {
+            foo(i);
+        }
+
+        // 输出0 
+        console.log('count', foo.count);
+        // this在非严格模式下 默认绑定到全局对象
+
+        // 严格模式下 全局对象无法绑定 this会绑定到undefined
+
+        // 隐形绑定
+        function foo1() {
+            console.log('a', this.a);
+        }
+        var obj = {
+            a: 2,
+            foo1: foo1
+        };
+        obj.foo1(); //2 obj的foo1函数绑定foo1函数，this对象绑定到obj中
+
+
+        function foo2() {
+            console.log('foo2', this.a);
+        }
+
+        var obj2 = {
+            a: 42,
+            foo2: foo2
+        }
+
+        var obj1 = {
+            a: 2,
+            obj2: obj2
+        }
+
+        obj1.obj2.foo2() // 42 对象属性的引用链只有最顶层或者最后一层会影响调用位置
+
+
+
+        
+    </script>
+</body>
+
+</html>
