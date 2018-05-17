@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对象Object</title>
+</head>
+
+<body>
+    <script>
+        // Object.defineProperty()
+
+        var obj1 = {
+            a: 2
+        }
+
+        obj1.a = 3;
+        console.log(obj1.a); // 3
+
+
+        Object.defineProperty(obj1, 'a', {
+            value: 4,
+            writable: true, // 是否可写
+            configurable: false, // 是否可配置
+            enumerable: true
+        });
+
+        console.log(obj1.a); //4
+        obj1.a = 5;
+        console.log(obj1.a); //5
+
+
+
+        
+        Object.defineProperty(obj1, 'a', {
+            value: 5,
+            writable: true,
+            configurable: true, // 修改成false 后，是单向操作，无法撤销  
+            enumerable: true
+        })// TypeError
+        
+        
+       
+
+    </script>
+</body>
+
+</html>
