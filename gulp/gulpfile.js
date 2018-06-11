@@ -29,7 +29,7 @@ gulp.task('copy-html', () => {
     gulp.src(['src/html/**/*.html'])
         .pipe(gulp.dest('dist/html'));
 });
-// 复制资源文件
+// 复制图片
 gulp.task('copy-assets', () => {
     gulp.src('src/assets/**/*')
         .pipe(gulp.dest('dist/assets'));
@@ -46,15 +46,15 @@ gulp.task('copy-vendor-js', () => {
 // 复制处理scss
 gulp.task('copy-vendor-css', () => {
     gulp.src('src/vendor/**/{*.scss,*.css}')
-
         .pipe(gulpScss({
             outputStyle: 'expanded' //输出样式 outputStyle  // compressed压缩css expanded 不压缩
         }))
-        .pipe(postcss([require('precss'), require('autoprefixer')]))
+        .pipe(postcss([require('postcss-import'), require('precss'), require('autoprefixer')]))
         .pipe(cleanCSS({
             compatibility: 'ie8'
         }))
-        .pipe(gulp.dest('dist/vendor'));
+        .pipe(gulp.dest('dist/vendor'))
+        .pipe(connect.reload());
 });
 //处理js
 gulp.task('script', () => {
@@ -74,7 +74,8 @@ gulp.task('script', () => {
 
 //处理scss
 gulp.task('scss', () => {
-    gulp.src(['src/css/**/{*.scss,*.css}', '!src/css/common.scss'])
+    //, '!src/css/common.scss'
+    gulp.src(['src/css/**/{*.scss,*.css}'])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
         }))
@@ -82,7 +83,7 @@ gulp.task('scss', () => {
             outputStyle: 'expanded' //输出样式 outputStyle  // compressed压缩css expanded 不压缩
         }))
         // .pipe(sourcemaps.init())
-        .pipe(postcss([require('precss'), require('autoprefixer')]))
+        .pipe(postcss([require('postcss-import'), require('precss'), require('autoprefixer')]))
         .pipe(cleanCSS({
             compatibility: 'ie8'
         }))
@@ -98,7 +99,7 @@ gulp.task('reload', () => {
 });
 
 // 开始
-gulp.task('start', ['copy-index', 'copy-html', 'copy-assets','copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
+gulp.task('start', ['copy-index', 'copy-html', 'copy-assets', 'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
 
 
 gulp.task('watch', () => {
@@ -122,7 +123,7 @@ gulp.task('server', () => {
         middleware: function(connect, opt) { // 代理
             return [
                 proxy('/api', {
-                    target: 'http://192.168.1.68:8080/web',
+                    target: 'http://192.168.1.78:8080/web/',
                     changeOrigin: true,
                     pathRewrite: {
                         '^/api': ''
