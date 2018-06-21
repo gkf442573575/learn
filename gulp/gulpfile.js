@@ -29,7 +29,7 @@ gulp.task('copy-html', () => {
     gulp.src(['src/html/**/*.html'])
         .pipe(gulp.dest('dist/html'));
 });
-<<<<<<< HEAD
+
 // 复制资源
 gulp.task('copy-assets', () => {
     gulp.src('src/assets/**/*')
