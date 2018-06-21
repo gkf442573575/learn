@@ -32,7 +32,6 @@
     "gulp-uglify": "^3.0.0",
     "gulp-webserver": "^0.9.1",
     "http-proxy-middleware": "^0.17.4",
-    "postcss-import": "^11.1.0",
     "precss": "^2.0.0"
   },
   "dependencies": {}

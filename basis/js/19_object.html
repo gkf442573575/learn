@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对象Object</title>
+</head>
+<body>
+    <script>
+        //对象禁止扩展
+
+        var obj = {
+            a:2
+        }
+        Object.preventExtensions(obj); // 禁止扩展
+        obj.b = 2;
+        console.log(obj.b) // undefined
+
+        
+
+    </script>
+</body>
+</html>
