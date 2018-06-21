@@ -29,16 +29,12 @@ gulp.task('copy-html', () => {
     gulp.src(['src/html/**/*.html'])
         .pipe(gulp.dest('dist/html'));
 });
-// 复制图片
-gulp.task('copy-img', () => {
-    gulp.src('src/assets/img/**/*')
-        .pipe(gulp.dest('dist/assets/img'));
+// 复制资源
+gulp.task('copy-assets', () => {
+    gulp.src('src/assets/**/*')
+        .pipe(gulp.dest('dist/assets'));
 });
-// 复制字体
-gulp.task('copy-font', () => {
-    gulp.src('src/assets/font/**/*')
-        .pipe(gulp.dest('dist/assets/font'));
-});
+
 
 
 // 复制vendor的js
@@ -102,7 +98,7 @@ gulp.task('reload', () => {
 });
 
 // 开始
-gulp.task('start', ['copy-index', 'copy-html', 'copy-img', 'copy-font', 'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
+gulp.task('start', ['copy-index', 'copy-html', 'copy-assets',  'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
 
 
 gulp.task('watch', () => {
@@ -110,8 +106,7 @@ gulp.task('watch', () => {
     gulp.watch(['src/js/**/*.js'], ['script']);
     gulp.watch(['src/*.html'], ['copy-index']);
     gulp.watch(['src/html/**/*.html', 'src/*.html'], ['copy-html']);
-    gulp.watch(['src/assets/img/**/*'], ['copy-img']);
-    gulp.watch(['src/assets/font/**/*'], ['copy-font']);
+    gulp.watch(['src/assets/**/*'], ['copy-assets']);
     gulp.watch(['src/css/**/{*.scss,*.css}'], ['scss']);
     gulp.watch(['src/vendor/**/*'], ['copy-vendor-js', 'copy-vendor-css']);
     gulp.watch(['dist/**/{*.html,*.js,*.css}', 'dist/assets/**/*'], ['reload']);
