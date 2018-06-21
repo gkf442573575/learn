@@ -31,9 +31,6 @@ gulp.task('copy-html', () => {
 });
 <<<<<<< HEAD
 // 复制资源
-=======
-// 复制图片
->>>>>>> 413d70efae2e6905d9b770ceb55b43c3346c8f83
 gulp.task('copy-assets', () => {
     gulp.src('src/assets/**/*')
         .pipe(gulp.dest('dist/assets'));
@@ -103,11 +100,7 @@ gulp.task('reload', () => {
 });
 
 // 开始
-<<<<<<< HEAD
 gulp.task('start', ['copy-index', 'copy-html', 'copy-assets',  'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
-=======
-gulp.task('start', ['copy-index', 'copy-html', 'copy-assets', 'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
->>>>>>> 413d70efae2e6905d9b770ceb55b43c3346c8f83
 
 
 gulp.task('watch', () => {
