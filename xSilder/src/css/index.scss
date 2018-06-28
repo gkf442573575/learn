@@ -8,10 +8,18 @@
 .slider-container {
     position: relative;
     overflow: hidden;
-    .slider-wrapper{
+    .slider-wrapper {
         position: absolute;
         left: 0;
         top: 0;
         overflow: hidden;
+        .slider-item {
+            &.slider-item-left {
+                float: left;
+            }
+            &.slider-item-top{
+                
+            }
+        }
     }
 }

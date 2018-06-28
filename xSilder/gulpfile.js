@@ -66,7 +66,7 @@ gulp.task('script', () => {
         .pipe(babel({
             presets: ['env']
         })) //将ES6代码转译为可执行的JS代码
-        // .pipe(uglify()) //压缩
+        .pipe(uglify()) //压缩
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
 });
@@ -131,7 +131,7 @@ gulp.task('server', () => {
         host: localhost,
         livereload: true,
         port: 8081,
-        middleware: function(connect, opt) { // 代理
+        middleware: function (connect, opt) { // 代理
             return [
                 proxy('/api', {
                     target: 'http://192.168.1.171:8080/anywide_ccyl/',
@@ -150,14 +150,14 @@ let watch = ['watch-js', 'watch-html', 'watch-assets', 'watch-scss', 'watch-vend
 
 //运行default就可以命令行直接gulp就行
 gulp.task('default', () => {
-    runSequence('clean', start, 'server', watch, function() {
+    runSequence('clean', start, 'server', watch, function () {
         console.log(`Sever run at ${localhost}:8081`);
     })
 });
 
 // build 项目
 gulp.task('build', () => {
-    runSequence('clean', start, function() {
+    runSequence('clean', start, function () {
 
     });
 });
