@@ -9,46 +9,49 @@ const postcss = require('gulp-postcss'); // 进行css转换的
 const sourcemaps = require('gulp-sourcemaps'); // sourcemaps
 const babel = require('gulp-babel'); // gulp的babel工具
 const clean = require('gulp-clean'); //清理文件
-const webserver = require('gulp-webserver'); // web服务
 const proxy = require('http-proxy-middleware'); // 代理服务
 const plumber = require('gulp-plumber'); // 错误情况下不终止进程
 const notify = require('gulp-notify'); // 系统错误提醒
+const runSequence = require('run-sequence'); // gulp的顺序执行
+
+const consola = require('consola');
+const colors = require('colors');
+
 const address = require('address');
 let localhost = address.ip() || 'localhost'; //获取本地ip
 // task定义一个任务
 gulp.task('copy-index', () => {
     // gulp.src取到相应的文件
-    gulp.src(['src/*.html'])
+    return gulp.src(['src/*.html'])
         .pipe(gulp.dest('dist'))
         .pipe(connect.reload());
     // gulp.dest 输出路径
 });
-// 复制页面
+// 复制html下的页面
 gulp.task('copy-html', () => {
     // 也可传数组 ['src/html/*.html','!src/html/a.html'] 传!排除某个文件
-    gulp.src(['src/html/**/*.html'])
-        .pipe(gulp.dest('dist/html'));
+    return gulp.src(['src/html/**/*.html'])
+        .pipe(gulp.dest('dist/html'))
+        .pipe(connect.reload());
 });
-
 // 复制资源
 gulp.task('copy-assets', () => {
-    gulp.src('src/assets/**/*')
-        .pipe(gulp.dest('dist/assets'));
+    return gulp.src('src/assets/**/*')
+        .pipe(gulp.dest('dist/assets'))
+        .pipe(connect.reload());
 });
-
-
-
 // 复制vendor的js
 gulp.task('copy-vendor-js', () => {
-    gulp.src('src/vendor/**/*.js')
+    return gulp.src('src/vendor/**/*.js')
         .pipe(uglify()) //压缩
-        .pipe(gulp.dest('dist/vendor'));
+        .pipe(gulp.dest('dist/vendor'))
+        .pipe(connect.reload());
 });
 // 复制处理scss
 gulp.task('copy-vendor-css', () => {
-    gulp.src('src/vendor/**/{*.scss,*.css}')
+    return gulp.src('src/vendor/**/{*.scss,*.css}')
         .pipe(gulpScss({
-            outputStyle: 'expanded' //输出样式 outputStyle  // compressed压缩css expanded 不压缩
+            outputStyle: 'compressed' //输出样式 outputStyle  // compressed压缩css expanded 不压缩
         }))
         .pipe(postcss([require('postcss-import'), require('precss'), require('autoprefixer')]))
         .pipe(cleanCSS({
@@ -59,7 +62,7 @@ gulp.task('copy-vendor-css', () => {
 });
 //处理js
 gulp.task('script', () => {
-    gulp.src('src/js/**/*.js')
+    return gulp.src('src/js/**/*.js')
         // .pipe(concat('main.min.js'))
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
@@ -71,12 +74,10 @@ gulp.task('script', () => {
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
 });
-
-
 //处理scss
 gulp.task('scss', () => {
     //, '!src/css/common.scss'
-    gulp.src(['src/css/**/{*.scss,*.css}'])
+    return gulp.src(['src/css/**/{*.scss,*.css}'])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
         }))
@@ -93,25 +94,38 @@ gulp.task('scss', () => {
         .pipe(connect.reload());
 });
 
-// //重新刷新
+//清理dist下的文件
+gulp.task('clean', () => {
+    return gulp.src(['dist/*'], {
+            read: false
+        })
+        .pipe(clean());
+});
+
+//重新刷新
 gulp.task('reload', () => {
-    gulp.src('dist/**/*.html')
+    return gulp.src('dist/**/*.html')
         .pipe(connect.reload());
 });
 
-// 开始
-gulp.task('start', ['copy-index', 'copy-html', 'copy-assets',  'copy-vendor-js', 'copy-vendor-css', 'scss', 'script']);
-
-
-gulp.task('watch', () => {
-    // 监听文件变化
-    gulp.watch(['src/js/**/*.js'], ['script']);
-    gulp.watch(['src/*.html'], ['copy-index']);
-    gulp.watch(['src/html/**/*.html', 'src/*.html'], ['copy-html']);
-    gulp.watch(['src/assets/**/*'], ['copy-assets']);
-    gulp.watch(['src/css/**/{*.scss,*.css}'], ['scss']);
-    gulp.watch(['src/vendor/**/*'], ['copy-vendor-js', 'copy-vendor-css']);
-    gulp.watch(['dist/**/{*.html,*.js,*.css}', 'dist/assets/**/*'], ['reload']);
+// watch文件变化
+gulp.task('watch-js', () => {
+    return gulp.watch(['src/js/**/*.js'], ['script']);
+});
+gulp.task('watch-html', () => {
+    return gulp.watch(['src/html/**/*.html', 'src/*.html'], ['copy-index', 'copy-html']);
+});
+gulp.task('watch-assets', () => {
+    return gulp.watch(['src/assets/**/*'], ['copy-assets']);
+});
+gulp.task('watch-scss', () => {
+    return gulp.watch(['src/css/**/{*.scss,*.css}'], ['scss']);
+});
+gulp.task('watch-vendor', () => {
+    return gulp.watch(['src/vendor/**/*'], ['copy-vendor-js', 'copy-vendor-css']);
+});
+gulp.task('watch-dist', () => {
+    return gulp.watch(['dist/**/{*.html,*.js,*.css}', 'dist/assets/**/*'], ['reload']);
 });
 
 // gulp的connect的server
@@ -124,7 +138,7 @@ gulp.task('server', () => {
         middleware: function(connect, opt) { // 代理
             return [
                 proxy('/api', {
-                    target: 'http://192.168.1.78:8080/web/',
+                    target: 'http://192.168.1.171:8080/anywide_ccyl/',
                     changeOrigin: true,
                     pathRewrite: {
                         '^/api': ''
@@ -135,15 +149,19 @@ gulp.task('server', () => {
     });
 });
 
-//清理dist下的文件
-gulp.task('clean', () => {
-    gulp.src(['dist/*'], {
-            read: false
-        })
-        .pipe(clean());
-});
+let start = ['copy-index', 'copy-html', 'copy-assets', 'copy-vendor-js', 'copy-vendor-css', 'scss', 'script'];
+let watch = ['watch-js', 'watch-html', 'watch-assets', 'watch-scss', 'watch-vendor', 'watch-dist'];
 
 //运行default就可以命令行直接gulp就行
-gulp.task('default', ['start', 'server', 'watch'], () => {
-    console.log(`gulp has run in http://${localhost}:8081`);
+gulp.task('default', () => {
+    runSequence('clean', start, 'server', watch, function() {
+        consola.success(`Sever run at ${localhost}:8081`.green);
+    })
+});
+
+// build 项目
+gulp.task('build', () => {
+    runSequence('clean', start, function() {
+
+    });
 });
