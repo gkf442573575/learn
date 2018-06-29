@@ -1,4 +1,4 @@
-!(function () {
+!(function() {
     let $el = null;
     let config = {};
     let $silde_ul = null;
@@ -8,6 +8,11 @@
 
     function init(el, uConfig) {
         $el = el;
+        $silde_ul = $el.find('.slider-wrapper');
+        $silde_ul_li = $silde_ul.find('.slider-item');
+        if ($silde_ul_li.length <= 1) {
+            return;
+        }
         config = {
             width: uConfig.width ? uConfig.width : $el.width(),
             height: uConfig.height ? uConfig.height : $el.height(),
@@ -16,8 +21,6 @@
             direction: uConfig.direction ? uConfig.direction : 'horizontal',
             loop: uConfig.loop ? uConfig.loop : false
         };
-        $silde_ul = $el.find('.slider-wrapper');
-        $silde_ul_li = $silde_ul.find('.slider-item');
         setHtml();
     };
 
@@ -33,44 +36,61 @@
     };
 
     function setlistH() {
-        let isH = config.direction == 'horizontal' ? true : false;
-        let listClassName = isH ? 'slider-item-left' : 'slider-item-top';
-        let cssObj = isH ? {
-            width: config.width
-        } : {
-            height: config.height
-        };
+        let listClassName = '';
+        let cssObj = {};
         let itemLen = $silde_ul_li.length;
-        let ulCssObj = isH ? {
-            width: config.width * itemLen,
-            left: config.loop ? -config.width : 0
-        } : {
-            top: config.loop ? -config.height : 0
-        };
+        let ulCssObj = {};
+        let intCssObj = {};
+        if (config.direction == 'horizontal') {
+            listClassName = 'slider-item-left';
+            cssObj = {
+                width: config.width
+            };
+            ulCssObj = {
+                width: config.width * itemLen,
+                left: config.loop ? -config.width : 0
+            };
+            intCssObj = {
+                left: config.loop ? -config.width : 0
+            };
+        } else if (config.direction == 'vertical') {
+            listClassName = 'slider-item-top';
+            cssObj = {
+                height: config.height
+            };
+            ulCssObj = {
+                top: config.loop ? -config.height : 0
+            };
+            intCssObj = {
+                top: config.loop ? -config.height : 0
+            };
+        } else {
+            return;
+        }
         $silde_ul.css(ulCssObj);
-        $silde_ul_li.each(function () {
+        $silde_ul_li.each(function() {
             $(this).addClass(listClassName).css(cssObj);
         });
-        animat(isH, itemLen);
+        animat(intCssObj, itemLen);
     };
 
-    function animat(isH, itemLen) {
+    function animat(intCssObj, itemLen) {
         let currentLen = config.loop ? itemLen - 2 : itemLen;
-        let intCssObj = isH ? {
-            left: config.loop ? -config.width : 0
-        } : {
-            top: config.loop ? -config.height : 0
-        };
         sildeInt = setInterval(() => {
             if (current < currentLen) {
                 current++;
                 let multiple = config.loop ? (current + 1) : current;
-                let animatObj = isH ? {
-                    left: -config.width * multiple
-                } : {
-                    top: -config.height * multiple
+                let animatObj = {};
+                if (config.direction == 'horizontal') {
+                    animatObj = {
+                        left: -config.width * multiple
+                    }
+                } else if (config.direction == 'vertical') {
+                    animatObj = {
+                        top: -config.height * multiple
+                    }
                 };
-                $silde_ul.stop(true, false).animate(animatObj, config.speed, function () {
+                $silde_ul.stop(true, false).animate(animatObj, config.speed, function() {
                     if (current == currentLen) {
                         $silde_ul.css(intCssObj);
                         current = 0;
@@ -90,7 +110,7 @@
     }
 
     $.fn.extend({
-        silder: function (userconfig) {
+        silder: function(userconfig) {
             new Silder($(this), userconfig);
         }
     });
