@@ -1,0 +1,146 @@
+@borderColor: #ececec;
+.flexBox {
+    display: flex;
+}
+
+.flexR {
+    .flexBox;
+    flex-direction: row;
+}
+
+.flexC {
+    .flexBox;
+    flex-direction: column;
+}
+
+.centerX {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.centerY {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.centerC {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wh100 {
+    width: 100%;
+    height: 100%;
+}
+
+.img100 {
+    .wh100;
+    display: block;
+}
+
+.boxSize {
+    box-sizing: border-box;
+}
+
+.border-1px (@top, @right, @bottom, @left, @color: @borderColor) {
+    position: relative;
+    @scale: 3;
+    &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% * @scale;
+        height: 100% * @scale;
+        border: 0 @color solid;
+        box-sizing: border-box;
+        transform-origin: 0 0;
+        transform: scale(1 / @scale);
+        pointer-events: none;
+        z-index: 0;
+        & when (@top > 0) {
+            border-top-width: 1px;
+        }
+        & when (@right > 0) {
+            border-right-width: 1px;
+        }
+        & when (@bottom > 0) {
+            border-bottom-width: 1px;
+        }
+        & when (@left > 0) {
+            border-left-width: 1px;
+        }
+    }
+}
+
+.setTopLine(@c: @borderColor) {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid @c;
+    color: @c;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+}
+
+.setBottomLine(@c: @borderColor) {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid @c;
+    color: @c;
+    transform-origin: 0 100%;
+    transform: scaleY(0.5);
+}
+
+.setLeftLine(@c: @borderColor) {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    bottom: 0;
+    border-left: 1px solid @c;
+    color: @c;
+    transform-origin: 0 0;
+    transform: scaleX(0.5);
+}
+
+.setRightLine(@c: @borderColor) {
+    content: " ";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    bottom: 0;
+    border-right: 1px solid @c;
+    color: @c;
+    transform-origin: 100% 0;
+    transform: scaleX(0.5);
+}
+
+.textoverflow() {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.textline(@line: 2) {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: @line;
+    box-orient: vertical;
+}
