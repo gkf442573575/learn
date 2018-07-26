@@ -1,5 +1,5 @@
 export default {
-    primary:''
+    primary:'#60BE4F'
 
 
 }

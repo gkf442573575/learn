@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-import { NavBar, Icon } from "antd-mobile";
+import { NavBar } from "antd-mobile";
 
-import "./index.less";
+import "./home.less";
 
-class Index extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -13,7 +13,7 @@ class Index extends Component {
     render() {
         return (
             <div id="index">
-                <NavBar mode="light" onLeftClick={this.goback.bind(this, 1)}>
+                <NavBar mode="light">
                     首页
                 </NavBar>
             </div>
@@ -21,4 +21,4 @@ class Index extends Component {
     }
 }
 
-export default Index;
+export default Home;
