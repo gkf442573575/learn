@@ -4,7 +4,7 @@ import './index.css';
 import App from './app/App';
 import registerServiceWorker from './lib/registerServiceWorker';
 // import ParamsExample from './app/paramsExample'
-import {BrowserRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 
 const getConfirmation = (message, callback) => {
     const allowTransition = window.confirm(message);
@@ -12,12 +12,11 @@ const getConfirmation = (message, callback) => {
 }
 
 ReactDOM.render(
-    <BrowserRouter basename='/app' 
+    <HashRouter basename='/' 
     getUserConfirmation={getConfirmation}
-    forceRefresh={true}
     >
         <App/>
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('root')
 );
 registerServiceWorker();

@@ -13,7 +13,7 @@ class App extends Component {
     render(){
         return (          
                 <div>
-                    <ul>
+                    {/* <ul>
                         <li>
                             <Link to='/'>HOME</Link>
                         </li>
@@ -23,13 +23,13 @@ class App extends Component {
                         <li>
                             <Link to='/inbox'>INBOX</Link>
                         </li>
-                    </ul>
-                    <Switch>
+                    </ul> */}
+                    {/* // <Switch> */}
                         <Route exact path='/' component={Home} />
                         <Route path='/about/:id' component={About} />
                         <Route path='/inbox' component={Inbox} />
-                        <Route component = {Page404} />
-                    </Switch> 
+                        {/* <Route component = {Page404} /> */}
+                    {/* </Switch>  */}
                 </div>
         )
     }

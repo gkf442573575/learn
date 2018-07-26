@@ -1,60 +1,78 @@
 import React, { Component } from "react";
 
-import { TabBar } from "antd-mobile";
-
+import { Switch, Route } from "react-router-dom";
+import { NavBar,TabBar } from "antd-mobile";
 import config from "../units/config";
 
-import Home from "../pages/home/home";
-import Cart from "../pages/cart/cart";
-import User from "../pages/user/user";
+import Home from "./home/home";
+import Cart from "./cart/cart";
+import User from "./user/user";
 
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedTab: "home"
-        };
+        this.state = {};
     }
-    tabClick = name => {
-        this.setState({
-            selectedTab: name
-        });
-    };
 
     render() {
+        const TabBarList = [
+            {
+                path: "/home",
+                text: "home",
+                title: "首页",
+                icon: "hicon-home",
+                component: Home
+            },
+            {
+                path: "/cart",
+                text: "cart",
+                title: "购物车",
+                icon: "hicon-cart",
+                component: Cart
+            },
+            {
+                path: "/user",
+                text: "user",
+                title: "我的",
+                icon: "hicon-user",
+                component: User
+            }
+        ];
+        const path = this.props.location.pathname;
         return (
             <div id="router">
+                <NavBar mode="light">
+                    {TabBarList.find(v => v.path === path).title}
+                </NavBar>
+                <div className="barpage">
+                    <Switch>
+                        {TabBarList.map(v => (
+                            <Route
+                                key={v.path}
+                                path={v.path}
+                                component={v.component}
+                            />
+                        ))}
+                    </Switch>
+                </div>
                 <TabBar
                     tintColor={config.primary}
                     unselectedTintColor="#C0C0C0"
                 >
-                    <TabBar.Item
-                        title="首页"
-                        icon={<div className="tabbar hicon-home" />}
-                        selectedIcon={<div className="tabbar hicon-home" />}
-                        selected={this.state.selectedTab === "home"}
-                        onPress={this.tabClick.bind(this, "home")}
-                    >
-                        <Home />
-                    </TabBar.Item>
-                    <TabBar.Item
-                        title="购物车"
-                        icon={<div className="tabbar hicon-cart" />}
-                        selectedIcon={<div className="tabbar hicon-cart" />}
-                        selected={this.state.selectedTab === "cart"}
-                        onPress={this.tabClick.bind(this, "cart")}
-                    >
-                        <Cart />
-                    </TabBar.Item>
-                    <TabBar.Item
-                        title="我的"
-                        icon={<div className="tabbar hicon-user" />}
-                        selectedIcon={<div className="tabbar hicon-user" />}
-                        selected={this.state.selectedTab === "user"}
-                        onPress={this.tabClick.bind(this, "user")}
-                    >
-                        <User />
-                    </TabBar.Item>
+                    {TabBarList.map(v => (
+                        <TabBar.Item
+                            title={v.title}
+                            key={v.text}
+                            icon={<div className={`tabbar ${v.icon}`} />}
+                            selectedIcon={
+                                <div className={`tabbar ${v.icon}`} />
+                            }
+                            selected={v.path === path}
+                            onPress={() => {
+                                this.props.history.push(v.path);
+                            }}
+                        />
+                    ))}
                 </TabBar>
             </div>
         );
