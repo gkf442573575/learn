@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Index from "../pages/index";
-import Order from "../pages/order/order";
+import Order from "../pages/order";
+
+import Login from "../pages/login";
 
 const getConfirmation = (message, callback) => {
     const allowTransition = window.confirm(message);
@@ -21,7 +23,8 @@ class AppRouter extends Component {
             <HashRouter basename="/" getUserConfirmation={getConfirmation}>
                 <div id="app">
                     <Switch>
-                        <Route exact path="/" component={Order} />
+                        <Route exact path="/" Component={Login} />
+                        <Route path="/order" component={Order} />
                         <Route component={Index} />
                     </Switch>
                 </div>

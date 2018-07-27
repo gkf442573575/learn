@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
 import { Switch, Route } from "react-router-dom";
-import { NavBar,TabBar } from "antd-mobile";
+import { NavBar, TabBar } from "antd-mobile";
 import config from "../units/config";
 
-import Home from "./home/home";
-import Cart from "./cart/cart";
-import User from "./user/user";
+import Home from "./home";
+import Cart from "./cart";
+import User from "./user";
 
 class Index extends Component {
     constructor(props) {
@@ -38,7 +38,7 @@ class Index extends Component {
                 component: User
             }
         ];
-        const path = this.props.location.pathname;
+        let path = this.props.location.pathname;
         return (
             <div id="router">
                 <NavBar mode="light">

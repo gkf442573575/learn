@@ -105,7 +105,7 @@
   },
   "proxy": {
     "/api": {
-      "target": "https://cshybl.wetalk1948.com/",
+      "target": "http://cshybl.wetalk1948.com/",
       "pathRewrite": {
         "^/api": ""
       }
