@@ -7,5 +7,12 @@ import registerServiceWorker from "./registerServiceWorker";
 import "./styles/reset.less";
 import "./styles/common.less";
 
-ReactDOM.render( < AppRouter / > , document.getElementById("root"));
-registerServiceWorker();
+import Order from './mobx/order';
+
+let order = new Order()
+
+ReactDOM.render( < AppRouter order = {
+            order
+        }
+        / > , document.getElementById("root"));
+        registerServiceWorker();

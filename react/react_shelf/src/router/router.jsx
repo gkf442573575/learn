@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { HashRouter, Route, Switch } from "react-router-dom";
+import { observer } from "mobx-react";
 
 import Index from "../pages/index";
 import Order from "../pages/order";
@@ -11,7 +12,7 @@ const getConfirmation = (message, callback) => {
     const allowTransition = window.confirm(message);
     callback(allowTransition);
 };
-
+@observer
 class AppRouter extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +26,16 @@ class AppRouter extends Component {
                     <Switch>
                         <Route exact path="/" Component={Login} />
                         <Route path="/order" component={Order} />
-                        <Route component={Index} />
+                        <Route
+                            render={(...props) => {
+                                return (
+                                    <Index
+                                        {...props}
+                                        order={this.props.order}
+                                    />
+                                );
+                            }}
+                        />
                     </Switch>
                 </div>
             </HashRouter>

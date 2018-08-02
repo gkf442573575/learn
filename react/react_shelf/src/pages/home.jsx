@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 
+import { observer } from "mobx-react";
+
+import { Toast, Button } from "antd-mobile";
+// import "";
 import axios from "../units/axios";
 
-import { Carousel, Toast } from "antd-mobile";
-// import "";
-
+@observer
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -31,8 +33,17 @@ class Home extends Component {
         this.getIndexGoods();
     }
 
+    orderPush = () => {
+        let order = this.props.order;
+        order.pushOrder(1);
+    };
     render() {
-        return <div id="home" />;
+        return (
+            <div id="home">
+                <Button onClick={this.orderPush}>增加</Button>
+                <Button>减少</Button>
+            </div>
+        );
     }
 }
 
