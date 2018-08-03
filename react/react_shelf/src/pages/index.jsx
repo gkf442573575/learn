@@ -11,7 +11,6 @@ import Cart from "./cart";
 import User from "./user";
 import Err404 from "./err404";
 
-
 @observer
 class Index extends Component {
     constructor(props) {
@@ -43,7 +42,7 @@ class Index extends Component {
                 component: User
             }
         ];
-        let path = this.props["0"].location.pathname;
+        let path = this.props.location.pathname;
 
         let RenderIndex = null;
         if (TabBarList.find(v => v.path === path)) {
@@ -59,9 +58,12 @@ class Index extends Component {
                                 <Route
                                     key={v.path}
                                     path={v.path}
-                                    component={() => (
-                                        <v.component order={order} />
-                                    )}
+                                    render={props => {
+                                        let routeProps = Object.assign(props, {
+                                            order: this.props.order
+                                        });
+                                        return <v.component {...routeProps} />;
+                                    }}
                                 />
                             ))}
                         </Switch>
@@ -85,7 +87,7 @@ class Index extends Component {
                                 }
                                 selected={v.path === path}
                                 onPress={() => {
-                                    this.props["0"].history.push(v.path);
+                                    this.props.history.replace(v.path);
                                 }}
                             />
                         ))}

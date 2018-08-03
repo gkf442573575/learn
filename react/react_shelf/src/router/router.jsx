@@ -27,13 +27,11 @@ class AppRouter extends Component {
                         <Route exact path="/" Component={Login} />
                         <Route path="/order" component={Order} />
                         <Route
-                            render={(...props) => {
-                                return (
-                                    <Index
-                                        {...props}
-                                        order={this.props.order}
-                                    />
-                                );
+                            render={props => {
+                                let routeProps = Object.assign(props, {
+                                    order: this.props.order
+                                });
+                                return <Index {...routeProps} />;
                             }}
                         />
                     </Switch>
