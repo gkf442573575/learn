@@ -46,7 +46,6 @@ htmlDirs.forEach(page => {
     HTMLPlugins.push(new HTMLWebpackPlugin(htmlConfig));
 });
 
-
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
