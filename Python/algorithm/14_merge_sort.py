@@ -2,7 +2,7 @@
 
 def merge_sort(alist):
     '''
-    归并排序
+    归并排序 稳定
     :param alist:
     :return:
     '''
