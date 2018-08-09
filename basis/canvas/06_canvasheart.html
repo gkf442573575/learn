@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>字体变色</title>
+    <title>Input You Text</title>
     <script src="../lib/jquery-3.2.1.js"></script>
     <style>
         * {
@@ -54,6 +54,17 @@
 
     <script>
         $(function() {
+            window.requestAnimFrame = (function() {
+                return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    function(callback) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+            })();
+
+
+
             let $Input = $('.box input');
             let canvas = document.querySelector('#canvas');
             let ctx = canvas.getContext('2d');
@@ -64,16 +75,19 @@
             canvas.height = cheight;
 
             let s = {
-                balls: [],
+                hearts: [],
                 timeid: null
             };
+
+
+
 
             let canvasHandle = {
                 init() {
                     this.initImgData();
                 },
                 initImgData() {
-                    s.balls = [];
+                    s.hearts = [];
                     this.imgx = (cwidth - img.width) / 2;
                     this.imgy = (cheight - img.height) / 2;
                     // 清除canvas
@@ -100,7 +114,7 @@
                                 let red = Math.floor(Math.random() * 266),
                                     green = Math.floor(Math.random() * 266),
                                     blue = Math.floor(Math.random() * 266);
-                                let ballsingle = new ball({
+                                let heartsingle = new heart({
                                     x,
                                     y,
                                     red,
@@ -109,7 +123,7 @@
                                     imgx: this.imgx,
                                     imgy: this.imgy
                                 });
-                                s.balls.push(ballsingle);
+                                s.hearts.push(heartsingle);
                             }
                         }
                     }
@@ -121,14 +135,14 @@
                 animate() {
                     s.timeid = setInterval(function() {
                         ctx.clearRect(0, 0, cwidth, cheight);
-                        let ballLen = s.balls.length;
-                        for (let i = 0; i < ballLen; i++) {
-                            s.balls[i].gogogo();
+                        let heartLen = s.hearts.length;
+                        for (let i = 0; i < heartLen; i++) {
+                            s.hearts[i].gogogo();
                         }
                     }, 1000 / 60);
                 }
             };
-            let ball = function(obj) {
+            let heart = function(obj) {
                 this.posO = {
                     x: obj.x,
                     y: obj.y
@@ -144,26 +158,40 @@
                 };
                 this.append();
             };
-            ball.prototype.append = function() {
-                this.alpha = Math.random() * 0.5 + 0.4;
+            heart.prototype.append = function() {
+                this.alpha = Math.random() * 0.5 + 0.5;
                 this.aSpeed = 0.02 + Math.random() / 50;
                 this.r = 0;
                 this.rSpeed = Math.random() * 0.6;
             };
-            ball.prototype.update = function() {
+            heart.prototype.update = function() {
                 if (this.alpha < 0) {
                     this.append();
                 }
                 this.r += this.rSpeed;
                 this.alpha -= this.aSpeed;
             };
-            ball.prototype.draw = function() {
+            heart.prototype.draw = function() {
+                var HeartAngele = -90;
+                var rad = (Math.PI / 180);
+                var x1 = this.posE.x + this.r * Math.cos(HeartAngele * rad);
+                var y1 = this.posE.y + this.r * Math.sin(HeartAngele * rad);
+                var cx1 = this.posE.x + this.r * Math.cos((HeartAngele + 22.5) * rad);
+                var cy1 = this.posE.y + this.r * Math.sin((HeartAngele + 22.5) * rad);
+                var cx2 = this.posE.x + this.r * Math.cos((HeartAngele - 22.5) * rad);
+                var cy2 = this.posE.y + this.r * Math.sin((HeartAngele - 22.5) * rad);
+                var chord = 2 * this.r * Math.sin(22.5 * rad / 2);
                 ctx.beginPath();
-                ctx.arc(this.posE.x, this.posE.y, this.r, 0, 2 * Math.PI, false);
+                ctx.moveTo(x1, y1);
+                ctx.arc(cx1, cy1, chord, (270 + HeartAngele) * rad, (270 + HeartAngele + 225) * rad);
+                ctx.lineTo(this.posE.x, this.posE.y);
+                ctx.moveTo(x1, y1);
+                ctx.arc(cx2, cy2, chord, (90 + HeartAngele) * rad, (90 + HeartAngele + 135) * rad, true);
+                ctx.lineTo(this.posE.x, this.posE.y);
                 ctx.fillStyle = `rgba(${this.color.red},${this.color.green},${this.color.blue},${this.alpha})`;
                 ctx.fill();
             };
-            ball.prototype.gogogo = function() {
+            heart.prototype.gogogo = function() {
                 this.update();
                 this.draw();
             };
