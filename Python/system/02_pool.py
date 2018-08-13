@@ -24,7 +24,7 @@ if __name__ == '__main__':
     for i in range(0, 10):
         # Pool.apply_async(要调用的目标,(传递给目标的参数元祖,))
         # 每次循环将会用空闲出来的子进程去调用目标
-        po.apply_async(worker,(i,))
+        po.apply_async(worker,(i,)) # 非堵塞 堵塞 apply
 
     print('-----开始----')
     # 关闭进程池，关闭后po不再接收新的请求
