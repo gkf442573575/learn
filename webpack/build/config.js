@@ -21,7 +21,7 @@ const config = {
     dev: {
         host: devhost,
         port: '8080',
-        autoOpenBrowser: false, // 自动打开浏览器
+        autoOpenBrowser: true, // 自动打开浏览器
         assetsPublicPath: '/',
         proxyTable: { // proxy代理
             '/api': {

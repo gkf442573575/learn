@@ -1,6 +1,10 @@
+const autoprefixer = require('autoprefixer');
+
 module.exports = {
     plugins: [
         require('precss'),
-        require('autoprefixer')
+        autoprefixer({
+            browsers: ['last 2 versions', "IE 9"]
+        })
     ]
 }

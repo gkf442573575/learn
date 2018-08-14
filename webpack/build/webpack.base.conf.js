@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const config = require('./config');
 const fs = require('fs');
 const path = require('path');
@@ -6,8 +5,6 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 // 复制静态资源
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-// 压缩
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // 获取所有的html文件名的集合
 function getHtmlList(path) {
@@ -30,14 +27,15 @@ htmlDirs.forEach(page => {
     let htmlConfig = {
         filename: `${page}.html`,
         template: `./src/${page}.html`,
-        chunksSortMode: 'dependency'
+        chunksSortMode: 'dependency',
+        hash: true, //防止缓存
     };
     let found = config.ignoreJs.findIndex((val) => {
         return val === page;
     });
     if (found == -1) {
         // html文件绑定入口JS和页面名相同的
-        htmlConfig.chunks = [page];
+        htmlConfig.chunks = [page, 'vendor'];
         // 每个HTML文件添加一个入口，除非设置不用
         Entries[page] = config.jspath + `${page}.js`;
     } else {
@@ -50,15 +48,12 @@ function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
 
-
-
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: Entries,
     output: {
         path: config.build.assetsRoot,
-        filename: 'js/[name].bundle.js',
-        chunkFilename: 'js/[id].js'
+        filename: 'js/[name].js'
     },
     resolve: {
         extensions: ['.js', '.json'],
@@ -71,8 +66,7 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
-            }
-            , {
+            }, {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
@@ -94,19 +88,18 @@ module.exports = {
                     limit: 1000,
                     name: 'assets/[name].[ext]'
                 }
+            },
+            {
+                test: /\.(htm|html)$/,
+                use: 'html-withimg-loader'
             }
         ]
     },
-    // optimization:{ // 配置压缩  webpack4提出的配置
-    //     minimizer:[
-    //         new OptimizeCSSAssetsPlugin({})
-    //     ]
-    // },
     plugins: [
         ...HTMLPlugins,
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../src/assets'),
             to: './assets'
-        }]),
+        }])
     ]
 };

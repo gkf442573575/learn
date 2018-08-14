@@ -1,9 +1,6 @@
 'use strict'
 const path = require('path');
-const config = require('./config');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-
 exports.cssLoaders = function(options) {
     options = options || {}
 
@@ -11,9 +8,9 @@ exports.cssLoaders = function(options) {
         loader: 'css-loader',
         options: {
             sourceMap: options.sourceMap,
-            url: false, // 使用正确的相对路径
-            minimize: true,  // 压缩css
-        }  
+            // url: false, // 使用正确的相对路径
+            minimize: true, // 压缩css
+        }
     }
 
     const postcssLoader = {
