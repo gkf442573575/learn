@@ -1,6 +1,8 @@
 'use strict'
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const packageConfig = require('../package.json')
+
 exports.cssLoaders = function(options) {
     options = options || {}
 

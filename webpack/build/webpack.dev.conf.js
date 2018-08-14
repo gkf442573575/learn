@@ -37,6 +37,7 @@ module.exports = merge(webpackBaseConfig, {
             warn: false,
             errors: true
         },
+        clientLogLevel: "none",
         quiet: true,
         open: config.dev.autoOpenBrowser,
         proxy: config.dev.proxyTable
