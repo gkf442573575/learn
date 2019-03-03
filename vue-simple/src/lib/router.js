@@ -1,9 +1,10 @@
+
 import Vue from 'vue';
 import Router from 'vue-router';
 
 
-import Index from '@/components/index';
-import Firstload from '@/components/firstload';
+import Index from '../pages/index.vue';
+import Firstload from '../pages/firstload.vue';
 
 Vue.use(Router)
 

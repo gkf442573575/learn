@@ -3,12 +3,13 @@
 import Vue from 'vue';
 import App from './App';
 import router from './lib/router';
+import store from './lib/store'
 import Promise from 'promise-polyfill';
 
 
 import VueLazyload from 'vue-lazyload';
 
-import './lib/common.scss';
+import './main.scss';
 
 
 Vue.config.productionTip = false;
@@ -25,7 +26,7 @@ Vue.use(VueLazyload);
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
     router,
+    store,
     render: h => h(App)
-})
+}).$mount('#app')
