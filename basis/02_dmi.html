@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/jquery-3.2.1.js"></script>
+</head>
+
+<body>
+    <ul id='list'></ul>
+    <script>
+        let a = [{
+                h: 1.74,
+                w: 70
+            },
+            {
+                h: 1.68,
+                w: 73.5
+            },
+            {
+                h: 1.75,
+                w: 72
+            },
+            {
+                h: 1.58,
+                w: 76
+            },
+            {
+                h: 1.60,
+                w: 71.5
+            },
+            {
+                h: 1.62,
+                w: 120
+            },
+            {
+                h: 1.64,
+                w: 68.8
+            },
+            {
+                h: 1.57,
+                w: 75.5
+            },
+            {
+                h: 1.67,
+                w: 70.2
+            },
+            {
+                h: 1.68,
+                w: 73.5
+            },
+            {
+                h: 1.68,
+                w: 72
+            },
+            {
+                h: 1.72,
+                w: 77
+            },
+            {
+                h: 1.64,
+                w: 71.5
+            },
+            {
+                h: 1.60,
+                w: 76
+            },
+            {
+                h: 1.67,
+                w: 85
+            },
+            {
+                h: 1.60,
+                w: 124
+            },
+            {
+                h: 1.65,
+                w: 89
+            },
+            {
+                h: 1.58,
+                w: 52.5
+            },
+            {
+                h: 1.74,
+                w: 71.5
+            },
+            {
+                h: 1.62,
+                w: 55.5
+            },
+            {
+                h: 1.62,
+                w: 63
+            },
+            {
+                h: 1.68,
+                w: 83
+            },
+            {
+                h: 1.61,
+                w: 75
+            },
+            {
+                h: 1.58,
+                w: 64.5
+            },
+            {
+                h: 1.58,
+                w: 76
+            },
+            {
+                h: 1.62,
+                w: 70
+            },
+            {
+                h: 1.72,
+                w: 77
+            },
+            {
+                h: 1.55,
+                w: 74
+            },
+            {
+                h: 1.60,
+                w: 83
+            }
+        ]
+        let listhtml = '';
+        a.forEach(item => {
+            let dmi = (item.w / (item.h * item.h)).toFixed(2);
+            listhtml +=
+                `
+                <li>
+                    <span>身高：${item.h*100}</span>
+                    <span>体重：${item.w}</span>
+                    <span>体脂比：${dmi}</span>
+                </li>
+            `
+        })
+        $('#list').append(listhtml)
+    </script>
+</body>
+
+</html>
