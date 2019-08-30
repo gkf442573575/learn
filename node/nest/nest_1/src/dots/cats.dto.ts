@@ -4,6 +4,6 @@ export class CreateCatDto {
   readonly breed: string;
 }
 
-export class UpdateCatDto{
-  
+export class UpdateCatDto {
+  name: string;
 }

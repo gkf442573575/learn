@@ -10,6 +10,7 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { CreateCatDto, UpdateCatDto } from '../dots/cats.dto';
 import { Cat } from '../interfaces/cat.interface';
 import { CatsService } from './cats.service';
@@ -31,7 +32,7 @@ export class CatsController {
   }
 
   @Get()
-  async findAll(@Req() request): Promise<Cat[]> {
+  async findAll(@Req() request : Request): Promise<Cat[]> {
     return this.catsService.findAll();
   }
 
