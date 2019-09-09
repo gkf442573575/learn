@@ -1,4 +1,4 @@
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, Observable, Subject } from 'rxjs';
 import { throttleTime, scan, map } from 'rxjs/operators'
 
 
@@ -38,3 +38,21 @@ observable.subscribe({
 });
 
 console.log('just after subscribe');
+
+const subject = new Subject();
+
+
+subject.subscribe({
+  next: (v) => {
+    console.log('observeA', v);
+  }
+})
+
+subject.subscribe({
+  next: (v) => {
+    console.log('observeB', v);
+  }
+})
+
+subject.next(1);
+subject.next(2);
