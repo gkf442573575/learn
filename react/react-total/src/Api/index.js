@@ -1,11 +1,11 @@
 import request from './request';
-
+const apiBase = '/api';
 
 const Api = () => {
-  getGoods = pageon => {
+  getGoods = () => {
     return request({
-      url:'',
-      method:'get'
+      url: `${apiBase}/goods`,
+      method: 'get'
     })
   }
 }

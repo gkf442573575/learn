@@ -13,5 +13,7 @@ import { GoodsService } from './goods.service';
 export class GoodsController {
   constructor(private goodsService: GoodsService) {}
   @Get('/')
-  async getGoods() {}
+  async getGoods() {
+    return { code: 200, success: true}
+  }
 }

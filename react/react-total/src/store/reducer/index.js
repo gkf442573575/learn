@@ -30,6 +30,11 @@ const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case ADD_CART:
       return addcart(state, action.gid);
+    case GET_GOODS_LIST:
+      return {
+        ...state,
+        goodsList: action.list
+      }
     default:
       return state;
   }
