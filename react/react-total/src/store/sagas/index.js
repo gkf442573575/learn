@@ -1,14 +1,14 @@
 
-import { call, put, takeLatest } from 'redux-saga';
-import { GET_GOODS_LIST } from '../actions'
-import Api from '../../Api';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { GET_GOODS_LIST, FETCH_GOODS } from '../actions'
+import { getGoods } from '../../Api';
 
-function* getGoods() {
+function* getGoodsList() {
   try {
-    const goodslist = yield call(Api.getGoods);
+    const goodsData = yield call(getGoods);
     yield put({
       type: GET_GOODS_LIST,
-      list: goodslist
+      list: goodsData.goodslist
     });
   } catch (error) {
 
@@ -16,11 +16,10 @@ function* getGoods() {
 }
 
 
-function* mySaga() {
-  yield takeLatest('getGoods', getGoods);
-
+function* rootSaga() {
+  yield takeLatest(FETCH_GOODS, getGoodsList);
 }
 
-export default mySaga;
+export default rootSaga;
 
 

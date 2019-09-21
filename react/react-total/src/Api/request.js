@@ -25,7 +25,7 @@ export default function request(options = {}) {
   return new Promise((resolve, reject) => {
     fetch(url, options, { credentials: 'include' })
       .then(checkStatus)
-      .then(response => { resolve(response.json) })
+      .then(response => { resolve(response.json()) })
       .catch(error => { reject(error) })
   })
 }

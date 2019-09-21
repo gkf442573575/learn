@@ -9,6 +9,7 @@ export const GET_GOODS_LIST = 'GET_GOODS_LIST';
 
 export const GET_GOODS_INFO = 'GET_GOODS_INFO';
 
+export const FETCH_GOODS = 'FETCH_GOODS';
 
 export const addcart = (gid) => ({
   type: ADD_CART,

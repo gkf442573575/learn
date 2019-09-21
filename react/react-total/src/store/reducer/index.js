@@ -1,4 +1,4 @@
-import { ADD_CART, REMOVE_CART, CLEAR_CART, GET_GOODS_LIST, GET_GOODS_INFO } from '../actions'
+import { ADD_CART, GET_GOODS_LIST } from '../actions'
 
 const defaultState = {
   cartList: [],

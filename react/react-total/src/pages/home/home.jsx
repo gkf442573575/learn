@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import { FETCH_GOODS } from '../../store/actions';
 import { connect } from 'react-redux';
 
 import './home.scss';
 
 class Home extends Component {
-  static propTypes = {
-
-  };
-  
+  constructor(props) {
+    super(props);
+    this.props.getAllGoods();
+  }
+  static propTypes = {};
   render() {
+    const { goodsList } = this.props;
     return (
-      <div>主页</div>
+      <div>
+        {goodsList.map(item => (
+          <div key={item.goodsid}>{item.goodsname}</div>
+        ))}
+      </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-
+const mapStateToProps = ({ goodsList }) => ({
+  goodsList
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  getAllGoods: () => {
+    dispatch({ type: FETCH_GOODS });
+  }
 });
 
 export default connect(

@@ -13,7 +13,7 @@ import { GoodsModule } from './goods/goods.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UserModule, GoodsModule],
+  imports: [TypeOrmModule.forRoot(), GoodsModule],
   controllers: [AppController],
   providers: [AppService],
 })

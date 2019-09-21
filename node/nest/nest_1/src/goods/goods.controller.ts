@@ -14,6 +14,9 @@ export class GoodsController {
   constructor(private goodsService: GoodsService) {}
   @Get('/')
   async getGoods() {
-    return { code: 200, success: true}
+    let goodslist = await this.goodsService.getGoods();
+    console.log('goodslist', goodslist);
+    
+    return { code: 200, success: true, goodslist };
   }
 }
