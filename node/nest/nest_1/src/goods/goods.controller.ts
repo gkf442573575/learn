@@ -15,8 +15,6 @@ export class GoodsController {
   @Get('/')
   async getGoods() {
     let goodslist = await this.goodsService.getGoods();
-    console.log('goodslist', goodslist);
-    
     return { code: 200, success: true, goodslist };
   }
 }

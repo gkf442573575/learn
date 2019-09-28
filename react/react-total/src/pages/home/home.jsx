@@ -10,9 +10,13 @@ class Home extends Component {
     super(props);
     this.props.getAllGoods();
   }
+  componentDidMount() {}
+  shouldComponentUpdate(nextProps, nextState) {}
+  componentWillUnmount() {}
+  componentDidCatch(error, info) {}
   static propTypes = {};
   render() {
-    const { goodsList } = this.props;
+    const { goodsList } = this.props.goods;
     return (
       <div>
         {goodsList.map(item => (
@@ -23,8 +27,8 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ goodsList }) => ({
-  goodsList
+const mapStateToProps = ({ goods }) => ({
+  goods
 });
 
 const mapDispatchToProps = dispatch => ({

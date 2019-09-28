@@ -11,7 +11,7 @@ export const GET_GOODS_INFO = 'GET_GOODS_INFO';
 
 export const FETCH_GOODS = 'FETCH_GOODS';
 
-export const addcart = (gid) => ({
+export const addcart = (goods) => ({
   type: ADD_CART,
-  gid
+  goods
 });
