@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { FETCH_GOODS } from '../../store/actions';
 import { connect } from 'react-redux';
-
+import Goods from '../../components/goods/goods';
 import './home.scss';
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.props.getAllGoods();
-  }
+  // constructor(props) {
+  //   super(props);
+  //   // this.props.getAllGoods();
+  // }
   componentDidMount() {}
   shouldComponentUpdate(nextProps, nextState) {}
   componentWillUnmount() {}
   componentDidCatch(error, info) {}
   static propTypes = {};
   render() {
-    const { goodsList } = this.props.goods;
+    // const { goodsList } = this.props.goods;
     return (
       <div>
-        {goodsList.map(item => (
-          <div key={item.goodsid}>{item.goodsname}</div>
-        ))}
+        <Goods />
       </div>
     );
   }

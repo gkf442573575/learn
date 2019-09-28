@@ -6,7 +6,7 @@ class Cart extends Component {
   static propTypes = {};
 
   render() {
-    return <div>购物车</div>;
+    return <div></div>;
   }
 }
 
