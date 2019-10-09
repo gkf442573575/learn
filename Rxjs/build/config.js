@@ -17,7 +17,7 @@ const config = {
     ignoreJs: ['test'], // 没有入口js文件的html名
     dev: {
         host: devhost,
-        port: '8080',
+        port: '8088',
         autoOpenBrowser: true, // 自动打开浏览器
         assetsPublicPath: '/',
         proxyTable: { // proxy代理
