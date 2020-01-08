@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.example.myapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Hello</name>
+  <preference name="loglevel" value="true"/>
+  <preference name="launch_locally" value="false"/>
+  <preference name="api_host" value="https://www.ilinggdai.com"/>
+  <preference name="launch_url" value="111111"/>
+  <preference name="local_url" value="file://assets/pages/main/index.js"/>
+</widget>
