@@ -3,8 +3,8 @@ const fs = require('fs'),
 const parser = new xml2js.Parser()
 const builder = new xml2js.Builder()
 const configPath = __dirname + '/file/app_config.xml'
-fs.readFile(configPath, function(err, data) {
-  parser.parseString(data, function(err, result) {
+fs.readFile(configPath, function (err, data) {
+  parser.parseString(data, function (err, result) {
     let preferenceArr = result.widget.preference
     preferenceArr.forEach(item => {
       let attr = item['$']
@@ -13,7 +13,7 @@ fs.readFile(configPath, function(err, data) {
       }
     })
     let xml = builder.buildObject(result)
-    fs.writeFile(configPath, xml, function(err) {
+    fs.writeFile(configPath, xml, function (err) {
       console.log(err)
     })
   })
