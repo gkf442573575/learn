@@ -1,3 +1,4 @@
+// 修改xml的属性
 const fs = require('fs'),
   xml2js = require('xml2js')
 const parser = new xml2js.Parser()
