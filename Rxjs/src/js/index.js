@@ -1,4 +1,4 @@
-import { fromEvent, Observable, Subject, of } from 'rxjs'
+import { fromEvent, Observable, Subject, of, range } from 'rxjs'
 import { throttleTime, scan, map, first } from 'rxjs/operators'
 
 const btn = document.querySelector('#btn')
@@ -65,3 +65,5 @@ subject.next(2)
 map(x => x * x)(of(1, 2, 3)).subscribe(v => console.log('map x*x', v))
 
 first()(of(1, 2, 3)).subscribe(v => console.log('first val', v))
+
+map(x => x * 2)(range(1,3)).subscribe(v => console.log('rang', v))
