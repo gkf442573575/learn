@@ -1,9 +1,10 @@
 const path = require('path');
 // 获取ip地址
-const address = require('address');
-const devhost = address.ip() || 'localhost';
+// const address = require('address');
+// const devhost = address.ip() || 'localhost';
 const projectPath = process.cwd(); // 项目目录
 
+const port = process.env.port || process.env.npm_config_port || 9527
 
 const SRC_PATH = path.join(projectPath, './src/');
 
@@ -17,8 +18,8 @@ const config = {
     jspath: './src/js/',
     ignoreJs: ['test'], // 没有入口js文件的html名
     dev: {
-        host: devhost,
-        port: '8080',
+        // host: devhost,
+        port: port,
         autoOpenBrowser: false, // 自动打开浏览器
         assetsPublicPath: '/',
         proxyTable: { // proxy代理

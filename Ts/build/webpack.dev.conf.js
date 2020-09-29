@@ -21,7 +21,7 @@ module.exports = merge(webpackBaseConfig, {
         new webpack.NoEmitOnErrorsPlugin(),
         new FriendlyErrorsPlugin({
             compilationSuccessInfo: {
-                messages: [`Your application is running on: http://${config.dev.host}:${config.dev.port}`],
+                messages: [`Your application is running on: http://localhost:${config.dev.port}`],
             },
             onErrors: config.dev.notifyOnErrors ?
                 utils.createNotifierCallback() : undefined
