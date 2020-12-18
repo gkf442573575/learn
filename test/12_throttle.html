@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>js节流</title>
+  </head>
+  <body>
+    <button id="btn">点击</button>
+    <div id="box"></div>
+    <script>
+      const btn = document.querySelector('#btn');
+      let num = 1;
+
+      function addlog() {
+        document.querySelector('#box').innerHTML = num;
+        num++;
+      }
+
+      function throttle() {
+        const args = Array.prototype.slice.call(arguments);
+        const fn = args.shift();
+        const func = () => {
+          fn.apply(this, args);
+          fn['tid'] = Date.now();
+        };
+        if (!fn['tid']) {
+          func();
+        } else {
+          // 时间差大于ms 立即调用函数，更新lastTime
+          if (Date.now() - fn.tid > 3000) {
+            func();
+            // fn.tid = Date.now()
+          }
+        }
+      }
+      btn.onclick = function() {
+        throttle(addlog());
+      };
+    </script>
+  </body>
+</html>

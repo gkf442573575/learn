@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="hidden" name="username" id="username" th:value="1233">
+  <script>
+    const username = document.querySelector("#username").getAttribute('th:value')
+    console.log('username', username)
+  </script>
+</body>
+</html>
