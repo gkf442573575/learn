@@ -1,5 +1,6 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
+const path = require('path')
 var appid = 'wx23b8a7d8b44735de';
 var secret = '60b257b6c0fc9286aca745b6a7907225';
 fetch(
@@ -29,7 +30,7 @@ fetch(
   )
   .then((response) => response.buffer())
   .then((buffer) => {
-    fs.writeFile('test.png', buffer, 'binary', (err) => {
+    fs.writeFile(`${path.join(__dirname, '/imgs/')}test.png`, buffer, 'binary', (err) => {
       if (err) {
         console.log('生成失败');
       }
