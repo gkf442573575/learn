@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影像测试</title>
+  </head>
+  <body>
+    <div id="demo-element"></div>
+    <script src="./lib/cornerstone.js"></script>
+    <!-- <script src="./lib/cornerstoneWebImageLoader.min.js"></script> -->
+    <script src="./lib/cornerstoneWADOImageLoader.min.js"></script>
+    <script>
+      // cornerstoneWebImageLoader.external.cornerstone = cornerstone;
+      cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+      const element = document.getElementById('demo-element');
+      const imageId = 'http://127.0.0.1:5500/test/files/test.dcm';
+      cornerstone.enable(element);
+      cornerstone.loadAndCacheImage(imageId).then(function (image) {
+        console.log('image', image);
+        cornerstone.displayImage(element, image);
+
+        // Enable our tools
+        cornerstoneTools.mouseInput.enable(element);
+        cornerstoneTools.mouseWheelInput.enable(element);
+        cornerstoneTools.wwwc.activate(element, 1); // Left Click
+        cornerstoneTools.pan.activate(element, 2); // Middle Click
+        cornerstoneTools.zoom.activate(element, 4); // Right Click
+        cornerstoneTools.zoomWheel.activate(element); // Mouse Wheel
+      }).catch(err => {
+        console.log('err =>>>>>', err)
+      });
+    </script>
+  </body>
+</html>
