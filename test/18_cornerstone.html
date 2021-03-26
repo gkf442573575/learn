@@ -9,13 +9,20 @@
   <body>
     <div id="demo-element"></div>
     <script src="./lib/cornerstone/cornerstone.js"></script>
+    <script src="./lib/cornerstone/cornerstone-tools.js"></script>
     <script src="./lib/cornerstone/dicomParser.min.js"></script>
     <!-- <script src="./lib/cornerstoneWebImageLoader.min.js"></script> -->
     <script src="./lib/cornerstone/cornerstoneWADOImageLoader.js"></script>
     <script>
       // cornerstoneWebImageLoader.external.cornerstone = cornerstone;
       cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+      cornerstoneTools.external.cornerstone = cornerstone;
+      console.log('cornerstoneTools', cornerstoneTools)
+      cornerstoneTools.init();
+      const ZoomMouseWheelTool = cornerstoneTools.ZoomMouseWheelTool;
 
+      cornerstoneTools.addTool(ZoomMouseWheelTool);
+      cornerstoneTools.setToolActive('ZoomMouseWheel', { mouseButtonMask: 1 });
       const element = document.getElementById('demo-element');
       const imageId = 'wadouri:http://127.0.0.1:5501/test/files/test.dcm';
       cornerstone.enable(element);
