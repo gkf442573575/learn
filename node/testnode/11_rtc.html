@@ -19,7 +19,11 @@
 <script src="./lib/RecordRTC.min.js"></script>
 <script>
 var video = document.querySelector('video');
+/*
+navigator.mediaDevices
+        .enumerateDevices()
 
+*/
 function captureCamera(callback) {
   navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function(camera) {
       callback(camera);
