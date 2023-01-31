@@ -11,7 +11,7 @@ const httpsAgent = new https.Agent({
 
 const PACS_URL_IP = '172.22.52.60';
 const RIS_PORT = 8443;
-const RIS_API_PORT = 8088;
+// const RIS_API_PORT = 8088;
 
 const JSESSIONID = 'DE9253C17E49FD7018B313BAF3123BA2';
 const io = 'mPwszvYnVOLTKIcyAQDC';
@@ -72,27 +72,27 @@ function downloadImg(url, patientId, regId, index) {
   });
 }
 
-function getRegIdByPatientId(patientId) {
-  return new Promise((resolve, reject) => {
-    const url = `https://${PACS_URL_IP}:${RIS_API_PORT}/getStudyListForMIV?patient_id=${patientId}`;
-    fetch(url, {
-      method: 'GET',
-      mode: 'cors',
-      agent: httpsAgent,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res && res.length) {
-          resolve(res[0].reg_id || '');
-        } else {
-          reject(new Error('无reg'));
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
+// function getRegIdByPatientId(patientId) {
+//   return new Promise((resolve, reject) => {
+//     const url = `https://${PACS_URL_IP}:${RIS_API_PORT}/getStudyListForMIV?patient_id=${patientId}`;
+//     fetch(url, {
+//       method: 'GET',
+//       mode: 'cors',
+//       agent: httpsAgent,
+//     })
+//       .then((res) => res.json())
+//       .then((res) => {
+//         if (res && res.length) {
+//           resolve(res[0].reg_id || '');
+//         } else {
+//           reject(new Error('无reg'));
+//         }
+//       })
+//       .catch((err) => {
+//         reject(err);
+//       });
+//   });
+// }
 
 function downLoadReport(patientId, regId) {
   return new Promise(async (resolve, reject) => {
