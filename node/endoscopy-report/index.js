@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 import * as https from 'https';
+import xlsx from 'node-xlsx';
+
 import { mkdirSync, writeFileSync, existsSync, createWriteStream } from 'fs';
 import { join } from 'path';
 
@@ -37,9 +39,9 @@ function getReport(patientId, regId) {
             'utf-8'
           );
           const reportContent = res.patInfo.reportContent;
-          const reg = /https\:\/\/[\/\.\:\w\s]+\={1}\/preview/g;
+          const reg = /https\:\/\/[\/\.\:\w\s\=]+?\/preview/g;
           const imgList = reportContent.match(reg);
-          resolve(imgList);
+          resolve(imgList || []);
         } else {
           resolve([]);
         }
@@ -92,21 +94,21 @@ function getRegIdByPatientId(patientId) {
   });
 }
 
-function downLoadReport(patientId) {
+function downLoadReport(patientId, regId) {
   return new Promise(async (resolve, reject) => {
     try {
-      const reg_id = await getRegIdByPatientId(patientId);
-      if (!reg_id) {
-        throw Error('无regid');
+      if (!regId) {
+        resolve();
+        return;
       }
-      const patientPath = join(__dirname, `report/${patientId}_${reg_id}`);
+      const patientPath = join(__dirname, `report/${patientId}_${regId}`);
       if (!existsSync(patientPath)) {
         mkdirSync(patientPath);
       }
-      const imgList = await getReport(patientId, reg_id);
+      const imgList = await getReport(patientId, regId);
       let index = 1;
       for (const item of imgList) {
-        let msg = await downloadImg(item, patientId, reg_id, index);
+        let msg = await downloadImg(item, patientId, regId, index);
         console.log(msg);
         index++;
       }
@@ -118,5 +120,18 @@ function downLoadReport(patientId) {
     }
   });
 }
+//TODO: 是否用execl
+// downLoadReport('ES00043839');
 
-downLoadReport('ES00043839');
+async function readXlsx(path) {
+  const sheets = xlsx.parse(path);
+  let data = sheets[0].data;
+  data.splice(0, 1);
+  for (const item of data) {
+    if (item && item.length && item[1] && item[3]) {
+      await downLoadReport(item[1], item[3]);
+    }
+  }
+}
+
+readXlsx('./list1.xlsx');
