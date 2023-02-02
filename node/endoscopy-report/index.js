@@ -11,10 +11,13 @@ const httpsAgent = new https.Agent({
 
 const PACS_URL_IP = '172.22.52.60';
 const RIS_PORT = 8443;
-// const RIS_API_PORT = 8088;
 
 const JSESSIONID = 'DE9253C17E49FD7018B313BAF3123BA2';
 const io = 'mPwszvYnVOLTKIcyAQDC';
+
+const PATIENTID_INDEX = 1 // 流水号 头部第几项
+const REGID_INDEX = 3 // 登记号 头部第几项
+const EXCEL_PATH = './list1.xlsx' // 表格路径
 
 const headers = {
   Cookie: `strongFlag=2; JSESSIONID=${JSESSIONID}; io=${io}`,
@@ -72,28 +75,6 @@ function downloadImg(url, patientId, regId, index) {
   });
 }
 
-// function getRegIdByPatientId(patientId) {
-//   return new Promise((resolve, reject) => {
-//     const url = `https://${PACS_URL_IP}:${RIS_API_PORT}/getStudyListForMIV?patient_id=${patientId}`;
-//     fetch(url, {
-//       method: 'GET',
-//       mode: 'cors',
-//       agent: httpsAgent,
-//     })
-//       .then((res) => res.json())
-//       .then((res) => {
-//         if (res && res.length) {
-//           resolve(res[0].reg_id || '');
-//         } else {
-//           reject(new Error('无reg'));
-//         }
-//       })
-//       .catch((err) => {
-//         reject(err);
-//       });
-//   });
-// }
-
 function downLoadReport(patientId, regId) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -120,18 +101,16 @@ function downLoadReport(patientId, regId) {
     }
   });
 }
-//TODO: 是否用execl
-// downLoadReport('ES00043839');
 
 async function readXlsx(path) {
   const sheets = xlsx.parse(path);
   let data = sheets[0].data;
   data.splice(0, 1);
   for (const item of data) {
-    if (item && item.length && item[1] && item[3]) {
-      await downLoadReport(item[1], item[3]);
+    if (item && item.length && item[PATIENTID_INDEX] && item[REGID_INDEX]) {
+      await downLoadReport(item[PATIENTID_INDEX], item[REGID_INDEX]);
     }
   }
 }
 
-readXlsx('./list1.xlsx');
+readXlsx(EXCEL_PATH);
