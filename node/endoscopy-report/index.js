@@ -103,6 +103,10 @@ function downLoadReport(patientId, regId) {
 }
 
 async function readXlsx(path) {
+  const reportPath = join(__dirname, 'report');
+  if (!existsSync(reportPath)) {
+    mkdirSync(reportPath);
+  }
   const sheets = xlsx.parse(path);
   let data = sheets[0].data;
   data.splice(0, 1);
