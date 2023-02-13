@@ -70,7 +70,7 @@ function downloadImg(url, patientId, regId, index) {
         resolve(`${patientId} >>> ${index}图像下载成功`);
       })
       .catch((err) => {
-        reject(err);
+        resolve(`${patientId} >>> ${index}图像下载失败`);
       });
   });
 }
@@ -97,7 +97,7 @@ function downLoadReport(patientId, regId) {
       resolve();
     } catch (error) {
       console.log(`${patientId} >>>> 下载出错 ${error}`);
-      reject(error);
+      resolve();
     }
   });
 }
